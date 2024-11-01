@@ -7,5 +7,9 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
 
+  // Static rendering
+  target: 'static',
+  ssr: false,
+
   compatibilityDate: '2024-11-01'
 })
