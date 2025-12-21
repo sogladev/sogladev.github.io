@@ -67,140 +67,123 @@ const displayTags = computed(() => {
   return props.compact ? tags.slice(0, 3) : tags;
 });
 
-// Primary action config
-const primaryAction = computed(() => {
-  if (props.type === "article") {
-    return {
-      label: "Read article",
-      icon: "i-heroicons-arrow-right",
-      to: props.content.path,
-    };
-  } else {
-    return {
-      label: "Learn more",
-      icon: "i-heroicons-arrow-right",
-      to: props.content.path,
-    };
-  }
+// Get image URL or placeholder
+const imageUrl = computed(() => {
+  const metaImage = props.content.meta?.image;
+  if (metaImage) return metaImage;
+  
+  // Use placeholder with dynamic size based on compact mode
+  const size = props.compact ? "300x180" : "400x240";
+  return `https://placehold.jp/cccccc/ffffff/${size}.png?text=${encodeURIComponent(props.type === "article" ? "Article" : "Project")}`;
 });
 
 // Secondary action config (for projects with GitHub)
-const secondaryAction = computed(() => {
-  if (props.type !== "project" || !props.showSecondaryAction) return null;
-
-  const repo = props.content.meta?.repo;
-  if (repo) {
-    return {
-      label: "View on GitHub",
-      icon: "i-simple-icons-github",
-      to: repo,
-      external: true,
-    };
-  }
-  return null;
+const hasGitHubLink = computed(() => {
+  return (
+    props.type === "project" &&
+    props.showSecondaryAction &&
+    !!props.content.meta?.repo
+  );
 });
 </script>
 
 <template>
-  <UCard>
-    <div class="flex flex-col gap-4">
-      <!-- Header -->
-      <div class="flex items-start justify-between gap-3">
-        <div class="flex-1 min-w-0">
-          <!-- Type badge + visibility badge -->
-          <div class="flex items-center gap-2 mb-3">
-            <UBadge
-              :color="type === 'article' ? 'primary' : 'secondary'"
-              variant="subtle"
-              size="sm"
-              :icon="
-                type === 'article'
-                  ? 'i-heroicons-document-text'
-                  : 'i-heroicons-code-bracket'
-              "
-            >
-              {{ type === "article" ? "Article" : "Project" }}
-            </UBadge>
-            <UBadge
-              v-if="visibilityBadge"
-              color="neutral"
-              variant="outline"
-              size="sm"
-              :icon="visibilityBadge.icon"
-            >
-              {{ visibilityBadge.label }}
-            </UBadge>
-          </div>
-
-          <!-- Title -->
-          <NuxtLink
-            :to="content.path"
-            class="hover:text-primary transition-colors"
+  <UCard class="overflow-hidden hover:shadow-lg transition-shadow">
+    <div class="flex flex-col">
+      <!-- Image -->
+      <NuxtLink :to="content.path" class="block">
+        <div class="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800">
+          <img
+            :src="imageUrl"
+            :alt="content.title"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           >
-            <h3
-              :class="[
-                'font-bold mb-2 line-clamp-2',
-                compact ? 'text-xl' : 'text-2xl',
-              ]"
-            >
-              {{ content.title }}
-            </h3>
-          </NuxtLink>
+        </div>
+      </NuxtLink>
 
-          <!-- Description -->
-          <p
+      <!-- Content -->
+      <div class="flex flex-col gap-4 p-6">
+        <!-- Type badge + visibility badge -->
+        <div class="flex items-center gap-2">
+          <UBadge
+            :color="type === 'article' ? 'primary' : 'secondary'"
+            variant="subtle"
+            size="sm"
+            :icon="
+              type === 'article'
+                ? 'i-heroicons-document-text'
+                : 'i-heroicons-code-bracket'
+            "
+          >
+            {{ type === "article" ? "Article" : "Project" }}
+          </UBadge>
+          <UBadge
+            v-if="visibilityBadge"
+            color="neutral"
+            variant="outline"
+            size="sm"
+            :icon="visibilityBadge.icon"
+          >
+            {{ visibilityBadge.label }}
+          </UBadge>
+        </div>
+
+        <!-- Title (clickable) -->
+        <NuxtLink
+          :to="content.path"
+          class="group"
+        >
+          <h3
             :class="[
-              'text-gray-600 dark:text-gray-400',
-              compact ? 'line-clamp-2' : 'line-clamp-3',
+              'font-bold line-clamp-2 group-hover:text-primary transition-colors',
+              compact ? 'text-xl' : 'text-2xl',
             ]"
           >
-            {{ content.description }}
-          </p>
+            {{ content.title }}
+          </h3>
+        </NuxtLink>
+
+        <!-- Description -->
+        <p
+          :class="[
+            'text-gray-600 dark:text-gray-400',
+            compact ? 'line-clamp-2' : 'line-clamp-3',
+          ]"
+        >
+          {{ content.description }}
+        </p>
+
+        <!-- Tech Icons -->
+        <div v-if="displayTags.length > 0" class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="tag in displayTags"
+            :key="tag"
+            color="neutral"
+            variant="soft"
+            size="xs"
+            :icon="getTagIcon(tag)"
+          >
+            {{ tag }}
+          </UBadge>
         </div>
-      </div>
 
-      <!-- Tech Icons -->
-      <div v-if="displayTags.length > 0" class="flex flex-wrap gap-2">
-        <UBadge
-          v-for="tag in displayTags"
-          :key="tag"
-          color="neutral"
-          variant="soft"
-          size="xs"
-          :icon="getTagIcon(tag)"
+        <!-- GitHub Action (projects only) -->
+        <div
+          v-if="hasGitHubLink"
+          class="pt-4 border-t border-gray-200 dark:border-gray-800"
         >
-          {{ tag }}
-        </UBadge>
-      </div>
-
-      <!-- Actions -->
-      <div
-        class="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-800"
-      >
-        <!-- Primary Action -->
-        <UButton
-          :to="primaryAction.to"
-          variant="solid"
-          color="primary"
-          size="sm"
-          :trailing-icon="primaryAction.icon"
-        >
-          {{ primaryAction.label }}
-        </UButton>
-
-        <!-- Secondary Action (GitHub link for projects) -->
-        <UButton
-          v-if="secondaryAction"
-          :to="secondaryAction.to"
-          :external="secondaryAction.external"
-          target="_blank"
-          variant="outline"
-          color="neutral"
-          size="sm"
-          :icon="secondaryAction.icon"
-        >
-          {{ secondaryAction.label }}
-        </UButton>
+          <UButton
+            :to="content.meta.repo"
+            external
+            target="_blank"
+            variant="outline"
+            color="neutral"
+            size="sm"
+            icon="i-simple-icons-github"
+          >
+            View on GitHub
+          </UButton>
+        </div>
       </div>
     </div>
   </UCard>
