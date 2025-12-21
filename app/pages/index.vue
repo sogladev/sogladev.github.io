@@ -3,6 +3,44 @@ import type { ContentItem } from "~/types/content";
 
 const searchQuery = ref("");
 
+// Icon mapping for different tech stacks and topics
+const tagIcons: Record<string, string> = {
+  rust: "i-simple-icons-rust",
+  cpp: "i-simple-icons-cplusplus",
+  "c++": "i-simple-icons-cplusplus",
+  typescript: "i-simple-icons-typescript",
+  javascript: "i-simple-icons-javascript",
+  python: "i-simple-icons-python",
+  lua: "i-simple-icons-lua",
+  sql: "i-simple-icons-mysql",
+  "game-dev": "i-heroicons-puzzle-piece",
+  cli: "i-heroicons-command-line",
+  devtools: "i-heroicons-wrench-screwdriver",
+  docker: "i-simple-icons-docker",
+  kubernetes: "i-simple-icons-kubernetes",
+  nodejs: "i-simple-icons-nodedotjs",
+  vue: "i-simple-icons-vuedotjs",
+  react: "i-simple-icons-react",
+  nuxt: "i-simple-icons-nuxtdotjs",
+  next: "i-simple-icons-nextdotjs",
+  tailwind: "i-simple-icons-tailwindcss",
+  tutorial: "i-heroicons-academic-cap",
+  guide: "i-heroicons-book-open",
+  tips: "i-heroicons-light-bulb",
+  features: "i-heroicons-sparkles",
+  performance: "i-heroicons-bolt",
+  security: "i-heroicons-shield-check",
+  database: "i-heroicons-circle-stack",
+  api: "i-heroicons-cloud",
+  web: "i-heroicons-globe-alt",
+  mobile: "i-heroicons-device-phone-mobile",
+};
+
+// Get icon for a tag, fallback to a default icon
+const getTagIcon = (tag: string): string => {
+  return tagIcons[tag.toLowerCase()] || "i-heroicons-hashtag";
+};
+
 // Fetch articles and projects
 const { data: articles } = await useAsyncData("home-articles", async () => {
   const results = await queryCollection("content").all();
@@ -151,6 +189,7 @@ const clearSearch = () => {
                 color="neutral"
                 variant="soft"
                 size="xs"
+                :icon="getTagIcon(tag)"
               >
                 {{ tag }}
               </UBadge>

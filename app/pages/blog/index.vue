@@ -2,6 +2,43 @@
 const searchQuery = ref("");
 const selectedTag = ref<string | null>(null);
 
+// Icon mapping for different tech stacks and topics
+const tagIcons: Record<string, string> = {
+  rust: "i-simple-icons-rust",
+  cpp: "i-simple-icons-cplusplus",
+  "c++": "i-simple-icons-cplusplus",
+  typescript: "i-simple-icons-typescript",
+  javascript: "i-simple-icons-javascript",
+  python: "i-simple-icons-python",
+  lua: "i-simple-icons-lua",
+  sql: "i-simple-icons-mysql",
+  "game-dev": "i-heroicons-puzzle-piece",
+  cli: "i-heroicons-command-line",
+  devtools: "i-heroicons-wrench-screwdriver",
+  docker: "i-simple-icons-docker",
+  kubernetes: "i-simple-icons-kubernetes",
+  nodejs: "i-simple-icons-nodedotjs",
+  vue: "i-simple-icons-vuedotjs",
+  react: "i-simple-icons-react",
+  nuxt: "i-simple-icons-nuxtdotjs",
+  next: "i-simple-icons-nextdotjs",
+  tailwind: "i-simple-icons-tailwindcss",
+  tutorial: "i-heroicons-academic-cap",
+  guide: "i-heroicons-book-open",
+  tips: "i-heroicons-light-bulb",
+  performance: "i-heroicons-bolt",
+  security: "i-heroicons-shield-check",
+  database: "i-heroicons-circle-stack",
+  api: "i-heroicons-cloud",
+  web: "i-heroicons-globe-alt",
+  mobile: "i-heroicons-device-phone-mobile",
+};
+
+// Get icon for a tag, fallback to a default icon
+const getTagIcon = (tag: string): string => {
+  return tagIcons[tag.toLowerCase()] || "i-heroicons-hashtag";
+};
+
 // Fetch all articles
 const { data: articles } = await useAsyncData("blog-articles", async () => {
   const results = await queryCollection("content").all();
@@ -114,9 +151,10 @@ useHead({
           <UBadge
             v-for="tag in allTags"
             :key="tag"
-            :color="selectedTag === tag ? 'primary' : 'gray'"
+            :color="selectedTag === tag ? 'primary' : 'neutral'"
             :variant="selectedTag === tag ? 'solid' : 'soft'"
-            class="cursor-pointer"
+            :icon="getTagIcon(tag)"
+            class="cursor-pointer hover:scale-105 transition-transform"
             @click="toggleTag(tag)"
           >
             {{ tag }}
@@ -171,10 +209,11 @@ useHead({
               <UBadge
                 v-for="tag in article.tags"
                 :key="tag"
-                color="gray"
+                color="neutral"
                 variant="soft"
                 size="sm"
-                class="cursor-pointer"
+                :icon="getTagIcon(tag)"
+                class="cursor-pointer hover:scale-105 transition-transform"
                 @click="toggleTag(tag)"
               >
                 {{ tag }}

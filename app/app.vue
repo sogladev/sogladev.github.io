@@ -1,89 +1,132 @@
+<script setup lang="ts">
+import type { NavigationMenuItem } from "@nuxt/ui";
+
+const route = useRoute();
+
+// Navigation items for the header
+const navItems = computed<NavigationMenuItem[]>(() => [
+  {
+    label: "Home",
+    to: "/",
+    active: route.path === "/",
+  },
+  {
+    label: "Blog",
+    to: "/blog",
+    active: route.path.startsWith("/blog"),
+  },
+  {
+    label: "Projects",
+    to: "/projects",
+    active: route.path.startsWith("/projects"),
+  },
+]);
+
+// Footer links
+const footerLinks: NavigationMenuItem[] = [
+  {
+    label: "GitHub",
+    to: "https://github.com",
+    target: "_blank",
+  },
+  {
+    label: "Twitter",
+    to: "https://twitter.com",
+    target: "_blank",
+  },
+];
+
+// Content search setup (for @nuxt/content integration)
+const { data: files } = useLazyAsyncData(
+  "search",
+  () => queryCollectionSearchSections("content"),
+  {
+    server: false,
+  },
+);
+
+const { data: navigation } = await useAsyncData("navigation", () =>
+  queryCollectionNavigation("content"),
+);
+
+const searchTerm = ref("");
+</script>
+
 <template>
-  <div class="min-h-screen flex flex-col">
+  <UApp>
     <NuxtRouteAnnouncer />
 
-    <!-- Header -->
-    <header
-      class="border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 bg-white dark:bg-gray-950"
-    >
-      <UContainer>
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo/Brand -->
-          <NuxtLink
-            to="/"
-            class="font-bold text-xl hover:text-primary transition-colors"
-          >
-            DevPortfolio
-          </NuxtLink>
+    <!-- Content Search Component -->
+    <ClientOnly>
+      <LazyUContentSearch
+        v-model:search-term="searchTerm"
+        :files="files"
+        :navigation="navigation"
+        :fuse="{ resultLimit: 42 }"
+        shortcut="meta_k"
+      />
+    </ClientOnly>
 
-          <!-- Navigation -->
-          <nav class="flex items-center gap-6">
-            <NuxtLink
-              to="/"
-              class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
-              active-class="!text-primary font-medium"
-            >
-              Home
-            </NuxtLink>
-            <NuxtLink
-              to="/blog"
-              class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
-              active-class="!text-primary font-medium"
-            >
-              Blog
-            </NuxtLink>
-            <NuxtLink
-              to="/projects"
-              class="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
-              active-class="!text-primary font-medium"
-            >
-              Projects
-            </NuxtLink>
+    <!-- Header with UHeader -->
+    <UHeader title="DevPortfolio">
+      <template #title>
+        <NuxtLink
+          to="/"
+          class="font-bold text-xl hover:text-primary transition-colors"
+        >
+          DevPortfolio
+        </NuxtLink>
+      </template>
 
-            <!-- Color Mode Toggle -->
-            <ClientOnly>
-              <UColorModeButton />
-            </ClientOnly>
-          </nav>
-        </div>
-      </UContainer>
-    </header>
+      <!-- Navigation Menu in center -->
+      <UNavigationMenu :items="navItems" />
+
+      <template #right>
+        <ClientOnly>
+          <UColorModeButton />
+        </ClientOnly>
+      </template>
+
+      <!-- Mobile menu body (shown when toggle is clicked) -->
+      <template #body>
+        <UNavigationMenu :items="navItems" orientation="vertical" />
+      </template>
+    </UHeader>
 
     <!-- Main Content -->
-    <main class="flex-1">
+    <UMain>
       <NuxtPage />
-    </main>
+    </UMain>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-200 dark:border-gray-800 py-8 mt-12">
-      <UContainer>
-        <div
-          class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-400"
-        >
-          <p>
-            © {{ new Date().getFullYear() }} DevPortfolio. Built with Nuxt &
-            Nuxt UI.
-          </p>
-          <div class="flex items-center gap-4">
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-primary transition-colors"
-            >
-              <UIcon name="i-simple-icons-github" class="w-5 h-5" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-primary transition-colors"
-            >
-              <UIcon name="i-simple-icons-twitter" class="w-5 h-5" />
-            </a>
-          </div>
-        </div>
-      </UContainer>
-    </footer>
-  </div>
+    <!-- Footer with UFooter -->
+    <UFooter>
+      <template #left>
+        <p class="text-sm text-muted">
+          © {{ new Date().getFullYear() }} DevPortfolio. Built with Nuxt & Nuxt
+          UI.
+        </p>
+      </template>
+
+      <UNavigationMenu :items="footerLinks" variant="link" />
+
+      <template #right>
+        <UButton
+          icon="i-simple-icons-github"
+          color="neutral"
+          variant="ghost"
+          to="https://github.com"
+          target="_blank"
+          aria-label="GitHub"
+        />
+        <UButton
+          icon="i-simple-icons-twitter"
+          color="neutral"
+          variant="ghost"
+          to="https://twitter.com"
+          target="_blank"
+          aria-label="Twitter"
+        />
+      </template>
+    </UFooter>
+  </UApp>
 </template>
