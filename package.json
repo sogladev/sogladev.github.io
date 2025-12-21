@@ -7,13 +7,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "prettier": "^3.8.0",
+    "prettier": "^3.4.2",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^6.1.0",
-    "eslint-plugin-vue": "^9.11.0"
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^9.31.0",
+    "vue-tsc": "^2.2.0"
   },
   "dependencies": {
     "@nuxt/content": "^3.9.0",
