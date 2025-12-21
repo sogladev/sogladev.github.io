@@ -63,27 +63,45 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
     .sort((a, b) => (b.meta.featured ? 1 : 0) - (a.meta.featured ? 1 : 0))
     .slice(0, 3);
 });
+
+// Search state and navigation for ContentSearch
+const searchTerm = ref("");
+const { data: navigation } = await useAsyncData("home-navigation", () =>
+  queryCollectionNavigation("content"),
+);
 </script>
 
 <template>
   <div>
     <!-- Hero Section -->
-    <div class="text-center py-12 border-b border-gray-200 dark:border-gray-800">
+    <div
+      class="text-center py-12 border-b border-gray-200 dark:border-gray-800"
+    >
       <div class="max-w-3xl mx-auto px-4">
-        <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1
+          class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+        >
           Welcome to My Dev Portfolio
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-400">
-          Exploring software development, system architecture, and open-source projects
+          Exploring software development, system architecture, and open-source
+          projects
         </p>
       </div>
     </div>
 
     <!-- Search Bar -->
     <div class="py-8 border-b border-gray-200 dark:border-gray-800">
-      <div class="max-w-3xl mx-auto px-4">
-        <UContentSearchButton placeholder="Search articles and projects..." />
-      </div>
+      <ClientOnly>
+        <LazyUContentSearch
+          v-model:search-term="searchTerm"
+          shortcut="meta_k"
+          :modal="false"
+          :files="projects"
+          :navigation="navigation"
+          :fuse="{ resultLimit: 42 }"
+        />
+      </ClientOnly>
     </div>
 
     <!-- Recent Blog Posts Section -->
@@ -141,7 +159,10 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
     </div>
 
     <!-- Featured Projects Section -->
-    <div v-if="projects && projects.length > 0" class="py-12 bg-gray-50 dark:bg-gray-900/50">
+    <div
+      v-if="projects && projects.length > 0"
+      class="py-12 bg-gray-50 dark:bg-gray-900/50"
+    >
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">

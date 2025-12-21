@@ -70,12 +70,9 @@ const searchTerm = ref("");
     <!-- Header with UHeader -->
     <UHeader title="DevPortfolio">
       <template #title>
-        <NuxtLink
-          to="/"
-          class="font-bold text-xl hover:text-primary transition-colors"
-        >
+        <span class="font-bold text-xl hover:text-primary transition-colors">
           DevPortfolio
-        </NuxtLink>
+        </span>
       </template>
 
       <!-- Navigation Menu in center -->
