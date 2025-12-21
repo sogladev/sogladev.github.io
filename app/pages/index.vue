@@ -1,17 +1,17 @@
 <script setup lang="ts">
-// Fetch recent articles
-const { data: articles } = await useAsyncData('home-articles', () => {
-  return queryCollection('blog').order('date', 'DESC').limit(3).all()
-})
+  // Fetch recent articles
+  const { data: articles } = await useAsyncData('home-articles', () => {
+    return queryCollection('blog').order('date', 'DESC').limit(3).all()
+  })
 
-// Fetch featured projects
-const { data: projects } = await useAsyncData('home-projects', () => {
-  return queryCollection('projects')
-    .where('featured', '=', true)
-    .order('stars', 'DESC')
-    .limit(3)
-    .all()
-})
+  // Fetch featured projects
+  const { data: projects } = await useAsyncData('home-projects', () => {
+    return queryCollection('projects')
+      .where('featured', '=', true)
+      .order('stars', 'DESC')
+      .limit(3)
+      .all()
+  })
 </script>
 
 <template>
@@ -33,13 +33,8 @@ const { data: projects } = await useAsyncData('home-projects', () => {
       </div>
     </div>
 
-    <!-- Search moved to the header: use the search button in the top-right to open global search -->
-
     <!-- Recent Blog Posts Section -->
-    <div
-      v-if="articles && articles.length > 0"
-      class="py-12"
-    >
+    <div v-if="articles && articles.length > 0" class="py-12">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">

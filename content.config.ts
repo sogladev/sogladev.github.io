@@ -12,8 +12,8 @@ export default defineContentConfig({
         author: z.string().optional(),
         tags: z.array(z.string()).default([]),
         image: z.string().optional(),
-        featured: z.boolean().default(false),
-      }),
+        featured: z.boolean().default(false)
+      })
     }),
     projects: defineCollection({
       type: 'page',
@@ -26,16 +26,16 @@ export default defineContentConfig({
         image: z.string().optional(),
         repo: z.string().optional(),
         featured: z.boolean().default(false),
-        stars: z.number().default(0),
-      }),
+        stars: z.number().default(0)
+      })
     }),
     pages: defineCollection({
       type: 'page',
       source: '*.md',
       schema: z.object({
         title: z.string(),
-        description: z.string().optional(),
-      }),
-    }),
-  },
+        description: z.string().optional()
+      })
+    })
+  }
 })

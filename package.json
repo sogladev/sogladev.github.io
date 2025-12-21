@@ -13,10 +13,12 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "prettier": "^3.4.2",
+    "@iconify-json/lucide": "^1.2.82",
+    "@iconify-json/simple-icons": "^1.2.63",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.31.0",
+    "prettier": "^3.4.2",
     "vue-tsc": "^2.2.0"
   },
   "dependencies": {
