@@ -34,12 +34,16 @@ const getTagIcon = (tag: string): string => {
 };
 
 // Fetch all projects
-const { data: projects } = await useAsyncData("projects", () =>
-  queryCollection("content")
-    .where({ _path: { $regex: /^\/projects\/[^/]+$/ } })
-    .sort({ featured: -1, stars: -1 })
-    .all(),
+const { data: allContent } = await useAsyncData("projects", () =>
+  queryCollection("content").all(),
 );
+
+const projects = computed(() => {
+  if (!allContent.value) return [];
+  return allContent.value.filter(
+    (item) => item.path.startsWith("/projects/") && item.path !== "/projects",
+  );
+});
 
 // Extract unique tags
 const allTags = computed(() => {
@@ -55,12 +59,12 @@ const allTags = computed(() => {
 const filteredProjects = computed(() => {
   if (!projects.value) return [];
 
-  let filtered = projects.value;
+  let filtered = [...projects.value];
 
   // Filter by tag
   if (selectedTag.value) {
     filtered = filtered.filter((project) =>
-      project.tags?.includes(selectedTag.value),
+      project.tags?.includes(selectedTag.value!),
     );
   }
 
@@ -75,7 +79,12 @@ const filteredProjects = computed(() => {
     );
   }
 
-  return filtered;
+  // Sort by featured and stars
+  return filtered.sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    return (b.stars || 0) - (a.stars || 0);
+  });
 });
 
 const clearSearch = () => {
@@ -166,14 +175,7 @@ useHead({
       <!-- Projects Grid -->
       <div v-if="filteredProjects.length > 0">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <UCard
-            v-for="project in filteredProjects"
-            :key="project._path"
-            :ui="{
-              body: { padding: 'p-6' },
-              header: { padding: 'p-6 pb-0' },
-            }"
-          >
+          <UCard v-for="project in filteredProjects" :key="project.path">
             <template #header>
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
@@ -240,7 +242,7 @@ useHead({
               >
                 View on GitHub
               </UButton>
-              <UButton :to="project._path" variant="soft" size="sm">
+              <UButton :to="project.path" variant="soft" size="sm">
                 Learn more
               </UButton>
             </div>

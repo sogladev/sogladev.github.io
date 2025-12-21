@@ -62,12 +62,17 @@ const { data: relatedArticles } = await useAsyncData(
     return results
       .filter(
         (item: any) =>
-          item._path?.match(/^\/blog\/[^/]+$/) &&
-          item._path !== route.path &&
+          item.path?.match(/^\/blog\/[^/]+$/) &&
+          item.path !== route.path &&
           item.tags?.some((tag: string) => article.value?.tags?.includes(tag)),
       )
       .slice(0, 3);
   },
+);
+
+// Fetch surround articles for navigation
+const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
+  queryCollectionItemSurroundings("content", route.path),
 );
 
 // SEO
@@ -78,34 +83,22 @@ useHead({
 </script>
 
 <template>
-  <UContainer>
-    <article class="py-12">
-      <!-- Article Header -->
-      <div class="mb-12 max-w-4xl mx-auto">
-        <!-- Back Link -->
+  <UPage v-if="article">
+    <UPageHeader :title="article.title" :description="article.description">
+      <template #headline>
         <NuxtLink
           to="/blog"
-          class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-primary mb-6"
+          class="inline-flex items-center text-sm hover:text-primary"
         >
           <UIcon name="i-heroicons-arrow-left" class="mr-1" />
           Back to blog
         </NuxtLink>
+      </template>
 
-        <!-- Title -->
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-          {{ article?.title }}
-        </h1>
-
-        <!-- Description -->
-        <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">
-          {{ article?.description }}
-        </p>
-
+      <template #links>
         <!-- Meta Information -->
-        <div
-          class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6"
-        >
-          <span v-if="article?.date">
+        <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
+          <span v-if="article.date">
             {{
               new Date(article.date).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -114,11 +107,11 @@ useHead({
               })
             }}
           </span>
-          <span v-if="article?.author"> by {{ article.author }} </span>
+          <span v-if="article.author"> by {{ article.author }} </span>
         </div>
 
         <!-- Tags -->
-        <div v-if="article?.tags?.length" class="flex flex-wrap gap-2">
+        <div v-if="article.tags?.length" class="flex flex-wrap gap-2 w-full">
           <UBadge
             v-for="tag in article.tags"
             :key="tag"
@@ -129,40 +122,35 @@ useHead({
             {{ tag }}
           </UBadge>
         </div>
-      </div>
+      </template>
+    </UPageHeader>
 
-      <!-- Article Content -->
-      <div class="max-w-4xl mx-auto">
-        <div class="prose prose-lg dark:prose-invert max-w-none">
-          <ContentRenderer v-if="article" :value="article" />
-        </div>
-      </div>
+    <UPageBody prose>
+      <ContentRenderer v-if="article.body" :value="article" />
+
+      <USeparator v-if="surround?.filter(Boolean).length" class="my-8" />
+
+      <UContentSurround :surround="surround as any" />
 
       <!-- Related Articles -->
-      <div
-        v-if="relatedArticles && relatedArticles.length > 0"
-        class="mt-16 max-w-4xl mx-auto"
-      >
+      <div v-if="relatedArticles && relatedArticles.length > 0" class="mt-16">
         <h2 class="text-2xl font-bold mb-6">Related Articles</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <UCard
+        <UPageGrid>
+          <UPageCard
             v-for="related in relatedArticles"
-            :key="related._path"
-            :ui="{ body: { padding: 'p-4' } }"
-          >
-            <NuxtLink :to="related._path" class="block">
-              <h3
-                class="font-semibold mb-2 hover:text-primary transition-colors"
-              >
-                {{ related.title }}
-              </h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                {{ related.description }}
-              </p>
-            </NuxtLink>
-          </UCard>
-        </div>
+            :key="related.path"
+            :title="related.title"
+            :description="related.description"
+            :to="related.path"
+            icon="i-heroicons-newspaper"
+            variant="soft"
+          />
+        </UPageGrid>
       </div>
-    </article>
-  </UContainer>
+    </UPageBody>
+
+    <template v-if="article.body?.toc?.links?.length" #right>
+      <UContentToc :links="article.body.toc.links" />
+    </template>
+  </UPage>
 </template>

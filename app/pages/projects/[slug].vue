@@ -83,6 +83,11 @@ const { data: relatedProjects } = await useAsyncData(
   },
 );
 
+// Fetch surround projects for navigation
+const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
+  queryCollectionItemSurroundings("content", route.path),
+);
+
 // SEO
 useHead({
   title: project.value?.title,
@@ -91,63 +96,54 @@ useHead({
 </script>
 
 <template>
-  <UContainer>
-    <article class="py-12">
-      <!-- Project Header -->
-      <div class="mb-12 max-w-4xl mx-auto">
-        <!-- Back Link -->
+  <UPage v-if="project">
+    <UPageHeader :title="project.title" :description="project.description">
+      <template #headline>
         <NuxtLink
           to="/projects"
-          class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-primary mb-6"
+          class="inline-flex items-center text-sm hover:text-primary"
         >
           <UIcon name="i-heroicons-arrow-left" class="mr-1" />
           Back to projects
         </NuxtLink>
+      </template>
 
-        <!-- Title -->
-        <div class="flex items-start gap-3 mb-4">
-          <h1 class="text-4xl md:text-5xl font-bold flex-1">
-            {{ project?.title }}
-          </h1>
-          <UBadge
-            v-if="project?.featured"
-            color="primary"
-            variant="subtle"
-            size="lg"
-          >
-            Featured
-          </UBadge>
-        </div>
-
-        <!-- Description -->
-        <p class="text-xl text-gray-600 dark:text-gray-400 mb-6">
-          {{ project?.description }}
-        </p>
-
-        <!-- Stats and Links -->
-        <div class="flex flex-wrap items-center gap-4 mb-6">
+      <template #links>
+        <!-- Stats and Action Buttons -->
+        <div class="flex flex-wrap items-center gap-3">
           <div
-            v-if="project?.stars"
-            class="flex items-center gap-1 text-gray-600 dark:text-gray-400"
+            v-if="project.stars"
+            class="flex items-center gap-1.5 text-sm text-muted"
           >
-            <UIcon name="i-heroicons-star" />
+            <UIcon name="i-heroicons-star" class="size-4" />
             <span>{{ project.stars }} stars</span>
           </div>
 
+          <UBadge
+            v-if="project.featured"
+            color="primary"
+            variant="subtle"
+            size="lg"
+            icon="i-heroicons-star"
+          >
+            Featured
+          </UBadge>
+
           <UButton
-            v-if="project?.repo"
+            v-if="project.repo"
             :to="project.repo"
             target="_blank"
             external
             icon="i-simple-icons-github"
             color="primary"
+            size="lg"
           >
             View on GitHub
           </UButton>
         </div>
 
         <!-- Tags -->
-        <div v-if="project?.tags?.length" class="flex flex-wrap gap-2">
+        <div v-if="project.tags?.length" class="flex flex-wrap gap-2 w-full">
           <UBadge
             v-for="tag in project.tags"
             :key="tag"
@@ -158,37 +154,33 @@ useHead({
             {{ tag }}
           </UBadge>
         </div>
-      </div>
+      </template>
+    </UPageHeader>
 
-      <!-- Project Content -->
-      <div class="max-w-4xl mx-auto">
-        <div class="prose prose-lg dark:prose-invert max-w-none">
-          <ContentRenderer v-if="project" :value="project" />
-        </div>
-      </div>
+    <UPageBody prose>
+      <ContentRenderer v-if="project.body" :value="project" />
+
+      <USeparator v-if="surround?.filter(Boolean).length" class="my-8" />
+
+      <UContentSurround :surround="surround as any" />
 
       <!-- Related Projects -->
-      <div
-        v-if="relatedProjects && relatedProjects.length > 0"
-        class="mt-16 max-w-4xl mx-auto"
-      >
+      <div v-if="relatedProjects && relatedProjects.length > 0" class="mt-16">
         <h2 class="text-2xl font-bold mb-6">Related Projects</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <UCard v-for="related in relatedProjects" :key="related.path">
-            <NuxtLink :to="related.path" class="block">
-              <h3
-                class="font-semibold mb-2 hover:text-primary transition-colors"
-              >
-                {{ related.title }}
-              </h3>
-              <p
-                class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3"
-              >
-                {{ related.description }}
-              </p>
-              <div v-if="related.tags?.length" class="flex flex-wrap gap-1">
+        <UPageGrid>
+          <UPageCard
+            v-for="related in relatedProjects"
+            :key="related.path"
+            :title="related.title"
+            :description="related.description"
+            :to="related.path"
+            icon="i-heroicons-cube"
+            variant="soft"
+          >
+            <template #footer>
+              <div class="flex flex-wrap gap-1">
                 <UBadge
-                  v-for="tag in related.tags.slice(0, 3)"
+                  v-for="tag in related.tags?.slice(0, 3)"
                   :key="tag"
                   color="primary"
                   variant="soft"
@@ -198,10 +190,14 @@ useHead({
                   {{ tag }}
                 </UBadge>
               </div>
-            </NuxtLink>
-          </UCard>
-        </div>
+            </template>
+          </UPageCard>
+        </UPageGrid>
       </div>
-    </article>
-  </UContainer>
+    </UPageBody>
+
+    <template v-if="project.body?.toc?.links?.length" #right>
+      <UContentToc :links="project.body.toc.links" />
+    </template>
+  </UPage>
 </template>

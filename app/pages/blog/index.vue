@@ -70,7 +70,7 @@ const filteredArticles = computed(() => {
   // Filter by tag
   if (selectedTag.value) {
     filtered = filtered.filter((article) =>
-      article.tags?.includes(selectedTag.value),
+      article.tags?.includes(selectedTag.value!),
     );
   }
 
@@ -176,19 +176,13 @@ useHead({
 
       <!-- Articles List -->
       <div v-if="filteredArticles.length > 0" class="space-y-6">
-        <UCard
-          v-for="article in filteredArticles"
-          :key="article._path"
-          :ui="{
-            body: { padding: 'p-6' },
-          }"
-        >
+        <UCard v-for="article in filteredArticles" :key="article.path">
           <div class="flex flex-col gap-4">
             <!-- Header -->
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
                 <NuxtLink
-                  :to="article._path"
+                  :to="article.path"
                   class="hover:text-primary transition-colors"
                 >
                   <h2 class="text-2xl font-bold mb-2">
@@ -245,7 +239,7 @@ useHead({
                 </span>
               </div>
               <NuxtLink
-                :to="article._path"
+                :to="article.path"
                 class="text-primary hover:underline font-medium"
               >
                 Read article →
