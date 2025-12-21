@@ -29,11 +29,6 @@ const footerLinks: NavigationMenuItem[] = [
     to: "https://github.com",
     target: "_blank",
   },
-  {
-    label: "Twitter",
-    to: "https://twitter.com",
-    target: "_blank",
-  },
 ];
 
 // Content search setup (for @nuxt/content integration)
@@ -82,6 +77,14 @@ const searchTerm = ref("");
         <ClientOnly>
           <UContentSearchButton :collapsed="false" />
           <UColorModeButton />
+          <UButton
+            icon="i-simple-icons-github"
+            color="neutral"
+            variant="ghost"
+            to="https://github.com"
+            target="_blank"
+            aria-label="GitHub"
+          />
         </ClientOnly>
       </template>
 
@@ -107,24 +110,7 @@ const searchTerm = ref("");
 
       <UNavigationMenu :items="footerLinks" variant="link" />
 
-      <template #right>
-        <UButton
-          icon="i-simple-icons-github"
-          color="neutral"
-          variant="ghost"
-          to="https://github.com"
-          target="_blank"
-          aria-label="GitHub"
-        />
-        <UButton
-          icon="i-simple-icons-twitter"
-          color="neutral"
-          variant="ghost"
-          to="https://twitter.com"
-          target="_blank"
-          aria-label="Twitter"
-        />
-      </template>
+      <template #right />
     </UFooter>
   </UApp>
 </template>
