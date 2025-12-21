@@ -80,7 +80,7 @@ const searchTerm = ref("");
 
       <template #right>
         <ClientOnly>
-          <UContentSearchButton collapsed />
+          <UContentSearchButton :collapsed="false" />
           <UColorModeButton />
         </ClientOnly>
       </template>
