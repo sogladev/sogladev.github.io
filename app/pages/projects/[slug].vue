@@ -184,7 +184,7 @@
                   :key="tag"
                   color="primary"
                   variant="soft"
-                  size="xs"
+                  size="sm"
                   :icon="getTagIcon(tag)"
                 >
                   {{ tag }}

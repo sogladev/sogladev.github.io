@@ -173,7 +173,7 @@
             <UBadge
               color="neutral"
               variant="soft"
-              size="xs"
+              size="sm"
               :icon="getTagIcon(tag)"
             >
               {{ tag }}
