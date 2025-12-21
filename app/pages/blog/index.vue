@@ -127,7 +127,6 @@ useHead({
           v-model="searchQuery"
           size="lg"
           placeholder="Search articles..."
-          icon="i-heroicons-magnifying-glass"
         >
           <template #trailing>
             <UButton
