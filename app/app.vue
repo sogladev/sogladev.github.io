@@ -1,61 +1,61 @@
 <script setup lang="ts">
-  import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
-  const route = useRoute()
+const route = useRoute()
 
-  // Navigation items for the header
-  const navItems = computed<NavigationMenuItem[]>(() => [
-    {
-      label: 'Home',
-      to: '/',
-      active: route.path === '/'
-    },
-    {
-      label: 'Blog',
-      to: '/blog',
-      active: route.path.startsWith('/blog')
-    },
-    {
-      label: 'Projects',
-      to: '/projects',
-      active: route.path.startsWith('/projects')
-    }
-  ])
+// Navigation items for the header
+const navItems = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Home',
+    to: '/',
+    active: route.path === '/',
+  },
+  {
+    label: 'Blog',
+    to: '/blog',
+    active: route.path.startsWith('/blog'),
+  },
+  {
+    label: 'Projects',
+    to: '/projects',
+    active: route.path.startsWith('/projects'),
+  },
+])
 
-  // Footer links
-  const footerLinks: NavigationMenuItem[] = [
-    {
-      label: 'GitHub',
-      to: 'https://github.com',
-      target: '_blank'
-    }
-  ]
+// Footer links
+const footerLinks: NavigationMenuItem[] = [
+  {
+    label: 'GitHub',
+    to: 'https://github.com',
+    target: '_blank',
+  },
+]
 
-  // Content search setup (for @nuxt/content integration)
-  const { data: files } = useLazyAsyncData(
-    'search',
-    async () => {
-      const [blog, projects, pages] = await Promise.all([
-        queryCollectionSearchSections('blog'),
-        queryCollectionSearchSections('projects'),
-        queryCollectionSearchSections('pages')
-      ])
-      return [...blog, ...projects, ...pages]
-    },
-    {
-      server: false
-    }
-  )
-
-  const { data: navigation } = await useAsyncData('navigation', async () => {
-    const [blog, projects] = await Promise.all([
-      queryCollectionNavigation('blog'),
-      queryCollectionNavigation('projects')
+// Content search setup (for @nuxt/content integration)
+const { data: files } = useLazyAsyncData(
+  'search',
+  async () => {
+    const [blog, projects, pages] = await Promise.all([
+      queryCollectionSearchSections('blog'),
+      queryCollectionSearchSections('projects'),
+      queryCollectionSearchSections('pages'),
     ])
-    return [...blog, ...projects]
-  })
+    return [...blog, ...projects, ...pages]
+  },
+  {
+    server: false,
+  },
+)
 
-  const searchTerm = ref('')
+const { data: navigation } = await useAsyncData('navigation', async () => {
+  const [blog, projects] = await Promise.all([
+    queryCollectionNavigation('blog'),
+    queryCollectionNavigation('projects'),
+  ])
+  return [...blog, ...projects]
+})
+
+const searchTerm = ref('')
 </script>
 
 <template>
@@ -101,7 +101,10 @@
 
       <!-- Mobile menu body (shown when toggle is clicked) -->
       <template #body>
-        <UNavigationMenu :items="navItems" orientation="vertical" />
+        <UNavigationMenu
+          :items="navItems"
+          orientation="vertical"
+        />
       </template>
     </UHeader>
 
@@ -119,7 +122,10 @@
         </p>
       </template>
 
-      <UNavigationMenu :items="footerLinks" variant="link" />
+      <UNavigationMenu
+        :items="footerLinks"
+        variant="link"
+      />
 
       <template #right />
     </UFooter>

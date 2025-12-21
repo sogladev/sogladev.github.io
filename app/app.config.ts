@@ -2,12 +2,12 @@ export default defineAppConfig({
   header: {
     title: 'SoglaDocs',
     logo: '/logo.svg',
-    sticky: true
+    sticky: true,
   },
   ui: {
     colors: {
       primary: 'emerald',
-      neutral: 'gray'
-    }
-  }
+      neutral: 'gray',
+    },
+  },
 })
