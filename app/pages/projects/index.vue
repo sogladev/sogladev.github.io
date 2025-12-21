@@ -2,7 +2,7 @@
 const searchQuery = ref("");
 const selectedTag = ref<string | null>(null);
 
-// Icon mapping for different tech stacks
+// Icon mapping for tags in filter badges
 const tagIcons: Record<string, string> = {
   rust: "i-simple-icons-rust",
   cpp: "i-simple-icons-cplusplus",
@@ -28,7 +28,6 @@ const tagIcons: Record<string, string> = {
   mobile: "i-heroicons-device-phone-mobile",
 };
 
-// Get icon for a tag, fallback to a default icon
 const getTagIcon = (tag: string): string => {
   return tagIcons[tag.toLowerCase()] || "i-heroicons-tag";
 };
@@ -174,78 +173,12 @@ useHead({
       <!-- Projects Grid -->
       <div v-if="filteredProjects.length > 0">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <UCard v-for="project in filteredProjects" :key="project.path">
-            <template #header>
-              <div class="flex items-start justify-between gap-4">
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-2xl font-bold">
-                      {{ project.title }}
-                    </h2>
-                    <UBadge
-                      v-if="project.featured"
-                      color="warning"
-                      variant="subtle"
-                    >
-                      Featured
-                    </UBadge>
-                  </div>
-                  <p class="text-gray-600 dark:text-gray-400">
-                    {{ project.description }}
-                  </p>
-                </div>
-              </div>
-            </template>
-
-            <!-- Tags -->
-            <div
-              v-if="project.tags && project.tags.length"
-              class="flex flex-wrap gap-2 mb-4"
-            >
-              <UBadge
-                v-for="tag in project.tags"
-                :key="tag"
-                color="neutral"
-                variant="soft"
-                :icon="getTagIcon(tag)"
-                class="cursor-pointer hover:scale-105 transition-transform"
-                @click="toggleTag(tag)"
-              >
-                {{ tag }}
-              </UBadge>
-            </div>
-
-            <!-- Stats -->
-            <div
-              v-if="project.stars"
-              class="flex items-center gap-4 mb-4 text-sm text-gray-600 dark:text-gray-400"
-            >
-              <div class="flex items-center gap-1">
-                <UIcon name="i-heroicons-star" />
-                <span>{{ project.stars }}</span>
-              </div>
-            </div>
-
-            <!-- Actions -->
-            <div
-              class="flex gap-3 pt-4 border-t border-gray-200 dark:border-gray-800"
-            >
-              <UButton
-                v-if="project.repo"
-                :to="project.repo"
-                target="_blank"
-                external
-                icon="i-simple-icons-github"
-                variant="outline"
-                size="sm"
-              >
-                View on GitHub
-              </UButton>
-              <UButton :to="project.path" variant="soft" size="sm">
-                Learn more
-              </UButton>
-            </div>
-          </UCard>
+          <ContentCard
+            v-for="project in filteredProjects"
+            :key="project.path"
+            :content="project"
+            type="project"
+          />
         </div>
       </div>
 

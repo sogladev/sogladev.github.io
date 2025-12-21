@@ -1,43 +1,6 @@
 <script setup lang="ts">
 import type { ContentItem } from "~/types/content";
 
-// Icon mapping for different tech stacks and topics
-const tagIcons: Record<string, string> = {
-  rust: "i-simple-icons-rust",
-  cpp: "i-simple-icons-cplusplus",
-  typescript: "i-simple-icons-typescript",
-  javascript: "i-simple-icons-javascript",
-  python: "i-simple-icons-python",
-  lua: "i-simple-icons-lua",
-  sql: "i-simple-icons-mysql",
-  "game-dev": "i-heroicons-puzzle-piece",
-  cli: "i-heroicons-command-line",
-  devtools: "i-heroicons-wrench-screwdriver",
-  docker: "i-simple-icons-docker",
-  kubernetes: "i-simple-icons-kubernetes",
-  nodejs: "i-simple-icons-nodedotjs",
-  vue: "i-simple-icons-vuedotjs",
-  react: "i-simple-icons-react",
-  nuxt: "i-simple-icons-nuxtdotjs",
-  next: "i-simple-icons-nextdotjs",
-  tailwind: "i-simple-icons-tailwindcss",
-  tutorial: "i-heroicons-academic-cap",
-  guide: "i-heroicons-book-open",
-  tips: "i-heroicons-light-bulb",
-  features: "i-heroicons-sparkles",
-  performance: "i-heroicons-bolt",
-  security: "i-heroicons-shield-check",
-  database: "i-heroicons-circle-stack",
-  api: "i-heroicons-cloud",
-  web: "i-heroicons-globe-alt",
-  mobile: "i-heroicons-device-phone-mobile",
-};
-
-// Get icon for a tag, fallback to a default icon
-const getTagIcon = (tag: string): string => {
-  return tagIcons[tag.toLowerCase()] || "i-heroicons-hashtag";
-};
-
 // Fetch recent articles
 const { data: articles } = await useAsyncData("home-articles", async () => {
   const results = await queryCollection("content").all();
@@ -104,41 +67,16 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
           </UButton>
         </div>
 
-        <UPageGrid>
-          <UPageCard
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ContentCard
             v-for="article in articles"
             :key="article.path"
-            :title="article.title"
-            :description="article.description"
-            :to="article.path"
-            icon="i-heroicons-newspaper"
-          >
-            <template #leading>
-              <UBadge
-                color="primary"
-                variant="subtle"
-                size="sm"
-                icon="i-heroicons-document-text"
-              >
-                Article
-              </UBadge>
-            </template>
-            <template #footer>
-              <div class="flex flex-wrap gap-2">
-                <UBadge
-                  v-for="tag in article.meta.tags?.slice(0, 3)"
-                  :key="tag"
-                  color="neutral"
-                  variant="soft"
-                  size="xs"
-                  :icon="getTagIcon(tag)"
-                >
-                  {{ tag }}
-                </UBadge>
-              </div>
-            </template>
-          </UPageCard>
-        </UPageGrid>
+            :content="article"
+            type="article"
+            compact
+            :show-secondary-action="false"
+          />
+        </div>
       </div>
     </div>
 
@@ -161,82 +99,15 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
           </UButton>
         </div>
 
-        <UPageGrid>
-          <UPageCard
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ContentCard
             v-for="project in projects"
             :key="project.path"
-            :title="project.title"
-            :description="project.description"
-            :to="project.path"
-            icon="i-heroicons-cube"
-            variant="soft"
-          >
-            <template #leading>
-              <div class="flex items-center gap-2">
-                <UBadge
-                  color="secondary"
-                  variant="subtle"
-                  size="sm"
-                  icon="i-heroicons-code-bracket"
-                >
-                  Project
-                </UBadge>
-                <UBadge
-                  v-if="project.meta.featured"
-                  color="warning"
-                  variant="subtle"
-                  size="sm"
-                  icon="i-heroicons-star"
-                >
-                  Featured
-                </UBadge>
-              </div>
-            </template>
-            <template #footer>
-              <div class="flex flex-col gap-3">
-                <!-- Tags -->
-                <div class="flex flex-wrap gap-2">
-                  <UBadge
-                    v-for="tag in project.meta.tags?.slice(0, 3)"
-                    :key="tag"
-                    color="neutral"
-                    variant="soft"
-                    size="xs"
-                    :icon="getTagIcon(tag)"
-                  >
-                    {{ tag }}
-                  </UBadge>
-                </div>
-                <!-- GitHub Link or Closed Source -->
-                <div
-                  class="flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-800"
-                >
-                  <UButton
-                    v-if="project.meta.repo"
-                    :to="project.meta.repo"
-                    target="_blank"
-                    external
-                    icon="i-simple-icons-github"
-                    variant="ghost"
-                    size="xs"
-                    color="neutral"
-                  >
-                    View on GitHub
-                  </UButton>
-                  <UBadge
-                    v-else
-                    color="neutral"
-                    variant="outline"
-                    size="xs"
-                    icon="i-heroicons-lock-closed"
-                  >
-                    Closed Source
-                  </UBadge>
-                </div>
-              </div>
-            </template>
-          </UPageCard>
-        </UPageGrid>
+            :content="project"
+            type="project"
+            compact
+          />
+        </div>
       </div>
     </div>
   </div>

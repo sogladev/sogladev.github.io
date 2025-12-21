@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { ContentItem } from "~/types/content";
+
 const searchQuery = ref("");
 const selectedTag = ref<string | null>(null);
 
-// Icon mapping for different tech stacks and topics
+// Icon mapping for tags in filter badges
 const tagIcons: Record<string, string> = {
   rust: "i-simple-icons-rust",
   cpp: "i-simple-icons-cplusplus",
@@ -34,7 +36,6 @@ const tagIcons: Record<string, string> = {
   mobile: "i-heroicons-device-phone-mobile",
 };
 
-// Get icon for a tag, fallback to a default icon
 const getTagIcon = (tag: string): string => {
   return tagIcons[tag.toLowerCase()] || "i-heroicons-hashtag";
 };
@@ -42,9 +43,9 @@ const getTagIcon = (tag: string): string => {
 // Fetch all articles
 const { data: articles } = await useAsyncData("blog-articles", async () => {
   const results = await queryCollection("content").all();
-  return (results as any[])
-    .filter((item: any) => item.path?.match(/^\/blog\/[^/]+$/))
-    .sort((a: any, b: any) => {
+  return (results as ContentItem[])
+    .filter((item: ContentItem) => item.path?.match(/^\/blog\/[^/]+$/))
+    .sort((a: ContentItem, b: ContentItem) => {
       const dateA = a.meta?.date ? new Date(a.meta.date).getTime() : 0;
       const dateB = b.meta?.date ? new Date(b.meta.date).getTime() : 0;
       return dateB - dateA;
@@ -56,7 +57,7 @@ const allTags = computed(() => {
   if (!articles.value) return [];
   const tags = new Set<string>();
   articles.value.forEach((article) => {
-    article.tags?.forEach((tag: string) => tags.add(tag));
+    article.meta.tags?.forEach((tag: string) => tags.add(tag));
   });
   return Array.from(tags).sort();
 });
@@ -70,7 +71,7 @@ const filteredArticles = computed(() => {
   // Filter by tag
   if (selectedTag.value) {
     filtered = filtered.filter((article) =>
-      article.tags?.includes(selectedTag.value!),
+      article.meta.tags?.includes(selectedTag.value!),
     );
   }
 
@@ -81,7 +82,9 @@ const filteredArticles = computed(() => {
       (article) =>
         article.title?.toLowerCase().includes(query) ||
         article.description?.toLowerCase().includes(query) ||
-        article.tags?.some((tag: string) => tag.toLowerCase().includes(query)),
+        article.meta.tags?.some((tag: string) =>
+          tag.toLowerCase().includes(query),
+        ),
     );
   }
 
@@ -175,77 +178,13 @@ useHead({
 
       <!-- Articles List -->
       <div v-if="filteredArticles.length > 0" class="space-y-6">
-        <UCard v-for="article in filteredArticles" :key="article.path">
-          <div class="flex flex-col gap-4">
-            <!-- Header -->
-            <div class="flex items-start justify-between gap-4">
-              <div class="flex-1">
-                <NuxtLink
-                  :to="article.path"
-                  class="hover:text-primary transition-colors"
-                >
-                  <h2 class="text-2xl font-bold mb-2">
-                    {{ article.title }}
-                  </h2>
-                </NuxtLink>
-                <p class="text-gray-600 dark:text-gray-400">
-                  {{ article.description }}
-                </p>
-              </div>
-            </div>
-
-            <!-- Tags -->
-            <div
-              v-if="article.tags && article.tags.length"
-              class="flex flex-wrap gap-2"
-            >
-              <UBadge
-                v-for="tag in article.tags"
-                :key="tag"
-                color="neutral"
-                variant="soft"
-                size="sm"
-                :icon="getTagIcon(tag)"
-                class="cursor-pointer hover:scale-105 transition-transform"
-                @click="toggleTag(tag)"
-              >
-                {{ tag }}
-              </UBadge>
-            </div>
-
-            <!-- Footer -->
-            <div
-              class="flex items-center justify-between text-sm pt-4 border-t border-gray-200 dark:border-gray-800"
-            >
-              <div class="flex items-center gap-4">
-                <span
-                  v-if="article.date"
-                  class="text-gray-500 dark:text-gray-400"
-                >
-                  {{
-                    new Date(article.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })
-                  }}
-                </span>
-                <span
-                  v-if="article.author"
-                  class="text-gray-500 dark:text-gray-400"
-                >
-                  by {{ article.author }}
-                </span>
-              </div>
-              <NuxtLink
-                :to="article.path"
-                class="text-primary hover:underline font-medium"
-              >
-                Read article →
-              </NuxtLink>
-            </div>
-          </div>
-        </UCard>
+        <ContentCard
+          v-for="article in filteredArticles"
+          :key="article.path"
+          :content="article"
+          type="article"
+          :show-secondary-action="false"
+        />
       </div>
 
       <!-- No Results -->
