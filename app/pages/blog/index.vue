@@ -42,11 +42,11 @@ const getTagIcon = (tag: string): string => {
 // Fetch all articles
 const { data: articles } = await useAsyncData("blog-articles", async () => {
   const results = await queryCollection("content").all();
-  return results
-    .filter((item: any) => item._path?.match(/^\/blog\/[^/]+$/))
+  return (results as any[])
+    .filter((item: any) => item.path?.match(/^\/blog\/[^/]+$/))
     .sort((a: any, b: any) => {
-      const dateA = a.date ? new Date(a.date).getTime() : 0;
-      const dateB = b.date ? new Date(b.date).getTime() : 0;
+      const dateA = a.meta?.date ? new Date(a.meta.date).getTime() : 0;
+      const dateB = b.meta?.date ? new Date(b.meta.date).getTime() : 0;
       return dateB - dateA;
     });
 });
