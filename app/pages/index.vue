@@ -68,99 +68,171 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
 <template>
   <div>
     <!-- Hero Section -->
-    <UPageHeader
-      title="Welcome to My Dev Portfolio"
-      description="Exploring software development, system architecture, and open-source projects"
-    />
+    <div class="text-center py-12 border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-3xl mx-auto px-4">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          Welcome to My Dev Portfolio
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          Exploring software development, system architecture, and open-source projects
+        </p>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="py-8 border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-3xl mx-auto px-4">
+        <UContentSearchButton placeholder="Search articles and projects..." />
+      </div>
+    </div>
 
     <!-- Recent Blog Posts Section -->
-    <UPageSection
-      v-if="articles && articles.length > 0"
-      headline="Latest Articles"
-      title="Recent Blog Posts"
-      description="Technical articles, guides, and tutorials on software development"
-      :links="[
-        {
-          label: 'View All Articles',
-          to: '/blog',
-          size: 'lg',
-          variant: 'outline',
-        },
-      ]"
-    >
-      <UPageGrid>
-        <UPageCard
-          v-for="article in articles"
-          :key="article.path"
-          :title="article.title"
-          :description="article.description"
-          :to="article.path"
-          icon="i-heroicons-newspaper"
-        >
-          <template #footer>
-            <div class="flex flex-wrap gap-2">
+    <div v-if="articles && articles.length > 0" class="py-12">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Recent Articles
+          </h2>
+          <UButton
+            to="/blog"
+            variant="outline"
+            trailing-icon="i-heroicons-arrow-right"
+          >
+            View All Articles
+          </UButton>
+        </div>
+
+        <UPageGrid>
+          <UPageCard
+            v-for="article in articles"
+            :key="article.path"
+            :title="article.title"
+            :description="article.description"
+            :to="article.path"
+            icon="i-heroicons-newspaper"
+          >
+            <template #leading>
               <UBadge
-                v-for="tag in article.meta.tags?.slice(0, 3)"
-                :key="tag"
-                color="neutral"
-                variant="soft"
-                size="xs"
-                :icon="getTagIcon(tag)"
+                color="primary"
+                variant="subtle"
+                size="sm"
+                icon="i-heroicons-document-text"
               >
-                {{ tag }}
+                Article
               </UBadge>
-            </div>
-          </template>
-        </UPageCard>
-      </UPageGrid>
-    </UPageSection>
+            </template>
+            <template #footer>
+              <div class="flex flex-wrap gap-2">
+                <UBadge
+                  v-for="tag in article.meta.tags?.slice(0, 3)"
+                  :key="tag"
+                  color="neutral"
+                  variant="soft"
+                  size="xs"
+                  :icon="getTagIcon(tag)"
+                >
+                  {{ tag }}
+                </UBadge>
+              </div>
+            </template>
+          </UPageCard>
+        </UPageGrid>
+      </div>
+    </div>
 
     <!-- Featured Projects Section -->
-    <UPageSection
-      v-if="projects && projects.length > 0"
-      headline="Showcase"
-      title="Featured Projects"
-      description="A collection of my open-source projects and contributions"
-      :links="[
-        {
-          label: 'View All Projects',
-          to: '/projects',
-          size: 'lg',
-          variant: 'outline',
-        },
-      ]"
-    >
-      <UPageGrid>
-        <UPageCard
-          v-for="project in projects"
-          :key="project.path"
-          :title="project.title"
-          :description="project.description"
-          :to="project.path"
-          icon="i-heroicons-cube"
-          variant="soft"
-        >
-          <template v-if="project.meta.featured" #leading>
-            <UBadge color="primary" variant="subtle" size="sm">
-              Featured
-            </UBadge>
-          </template>
-          <template #footer>
-            <div class="flex flex-wrap gap-2">
-              <UBadge
-                v-for="tag in project.meta.tags?.slice(0, 3)"
-                :key="tag"
-                color="primary"
-                variant="soft"
-                size="xs"
-                :icon="getTagIcon(tag)"
-              >
-                {{ tag }}
-              </UBadge>
-            </div>
-          </template>
-        </UPageCard>
-      </UPageGrid>
-    </UPageSection>
+    <div v-if="projects && projects.length > 0" class="py-12 bg-gray-50 dark:bg-gray-900/50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Featured Projects
+          </h2>
+          <UButton
+            to="/projects"
+            variant="outline"
+            trailing-icon="i-heroicons-arrow-right"
+          >
+            View All Projects
+          </UButton>
+        </div>
+
+        <UPageGrid>
+          <UPageCard
+            v-for="project in projects"
+            :key="project.path"
+            :title="project.title"
+            :description="project.description"
+            :to="project.path"
+            icon="i-heroicons-cube"
+            variant="soft"
+          >
+            <template #leading>
+              <div class="flex items-center gap-2">
+                <UBadge
+                  color="secondary"
+                  variant="subtle"
+                  size="sm"
+                  icon="i-heroicons-code-bracket"
+                >
+                  Project
+                </UBadge>
+                <UBadge
+                  v-if="project.meta.featured"
+                  color="warning"
+                  variant="subtle"
+                  size="sm"
+                  icon="i-heroicons-star"
+                >
+                  Featured
+                </UBadge>
+              </div>
+            </template>
+            <template #footer>
+              <div class="flex flex-col gap-3">
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2">
+                  <UBadge
+                    v-for="tag in project.meta.tags?.slice(0, 3)"
+                    :key="tag"
+                    color="neutral"
+                    variant="soft"
+                    size="xs"
+                    :icon="getTagIcon(tag)"
+                  >
+                    {{ tag }}
+                  </UBadge>
+                </div>
+                <!-- GitHub Link or Closed Source -->
+                <div
+                  class="flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-800"
+                >
+                  <UButton
+                    v-if="project.meta.repo"
+                    :to="project.meta.repo"
+                    target="_blank"
+                    external
+                    icon="i-simple-icons-github"
+                    variant="ghost"
+                    size="xs"
+                    color="neutral"
+                  >
+                    View on GitHub
+                  </UButton>
+                  <UBadge
+                    v-else
+                    color="neutral"
+                    variant="outline"
+                    size="xs"
+                    icon="i-heroicons-lock-closed"
+                  >
+                    Closed Source
+                  </UBadge>
+                </div>
+              </div>
+            </template>
+          </UPageCard>
+        </UPageGrid>
+      </div>
+    </div>
   </div>
 </template>
