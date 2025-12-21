@@ -41,7 +41,7 @@
   // Fetch the article
   const { data: article } = await useAsyncData(
     `blog-${route.params.slug}`,
-    () => queryCollection('content').path(route.path).first()
+    () => queryCollection('blog').path(route.path).first()
   )
 
   // Handle 404
@@ -59,21 +59,17 @@
     async () => {
       if (!article.value?.tags?.length) return []
 
-      const results = await queryCollection('content').all()
-      return results
-        .filter(
-          (item: any) =>
-            item.path?.match(/^\/blog\/[^/]+$/) &&
-            item.path !== route.path &&
-            item.tags?.some((tag: string) => article.value?.tags?.includes(tag))
-        )
-        .slice(0, 3)
+      return queryCollection('blog')
+        .where('path', '<>', route.path)
+        .where('tags', 'LIKE', `%${article.value.tags[0]}%`) // Simple tag matching
+        .limit(3)
+        .all()
     }
   )
 
   // Fetch surround articles for navigation
   const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-    queryCollectionItemSurroundings('content', route.path)
+    queryCollectionItemSurroundings('blog', route.path)
   )
 
   // SEO

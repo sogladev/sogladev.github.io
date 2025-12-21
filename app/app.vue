@@ -34,15 +34,26 @@
   // Content search setup (for @nuxt/content integration)
   const { data: files } = useLazyAsyncData(
     'search',
-    () => queryCollectionSearchSections('content'),
+    async () => {
+      const [blog, projects, pages] = await Promise.all([
+        queryCollectionSearchSections('blog'),
+        queryCollectionSearchSections('projects'),
+        queryCollectionSearchSections('pages')
+      ])
+      return [...blog, ...projects, ...pages]
+    },
     {
       server: false
     }
   )
 
-  const { data: navigation } = await useAsyncData('navigation', () =>
-    queryCollectionNavigation('content')
-  )
+  const { data: navigation } = await useAsyncData('navigation', async () => {
+    const [blog, projects] = await Promise.all([
+      queryCollectionNavigation('blog'),
+      queryCollectionNavigation('projects')
+    ])
+    return [...blog, ...projects]
+  })
 
   const searchTerm = ref('')
 </script>

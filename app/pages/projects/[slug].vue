@@ -35,7 +35,7 @@
   // Fetch the project
   const { data: project } = await useAsyncData(
     `project-${route.params.slug}`,
-    () => queryCollection('content').path(route.path).first()
+    () => queryCollection('projects').path(route.path).first()
   )
 
   // Handle 404
@@ -53,39 +53,17 @@
     async () => {
       if (!project.value?.tags?.length) return []
 
-      type ContentItem = {
-        path: string
-        tags?: string[]
-        title?: string
-        description?: string
-        repo?: string
-        stars?: number
-        featured?: boolean
-      }
-      const related = (await queryCollection('content')
-        // Use correct API: where(field, operator, value)
-        .where('_path', 'LIKE', '/projects/%')
-        .where('_path', '<>', route.path)
-        // fetch a few more and filter client-side for safety
-        .limit(10)
-        .all()) as unknown as ContentItem[]
-
-      // Filter by matching tags, ensure path matches project pattern, exclude current, and limit to 3
-      const projectPathRegex = /^\/projects\/[^/]+$/
-      return related
-        .filter(
-          (r: ContentItem) =>
-            projectPathRegex.test(r.path) &&
-            r.path !== route.path &&
-            r.tags?.some((tag: string) => project.value?.tags?.includes(tag))
-        )
-        .slice(0, 3)
+      return queryCollection('projects')
+        .where('path', '<>', route.path)
+        .where('tags', 'LIKE', `%${project.value.tags[0]}%`)
+        .limit(3)
+        .all()
     }
   )
 
   // Fetch surround projects for navigation
   const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-    queryCollectionItemSurroundings('content', route.path)
+    queryCollectionItemSurroundings('projects', route.path)
   )
 
   // SEO

@@ -1,33 +1,17 @@
 <script setup lang="ts">
-  import type { ContentItem } from '~/types/content'
-
   // Fetch recent articles
-  const { data: articles } = await useAsyncData('home-articles', async () => {
-    const results = await queryCollection('content').all()
-    const items = (results as ContentItem[]).filter(item =>
-      item.path?.match(/^\/blog\/[^/]+$/)
-    )
-
-    // Sort by date (most recent first)
-    return items
-      .sort((a, b) => {
-        const dateA = a.meta.date ? new Date(a.meta.date).getTime() : 0
-        const dateB = b.meta.date ? new Date(b.meta.date).getTime() : 0
-        return dateB - dateA
-      })
-      .slice(0, 3)
+  const { data: articles } = await useAsyncData('home-articles', () => {
+    return queryCollection('blog').order('date', 'DESC').limit(3).all()
   })
 
   // Fetch featured projects
-  const { data: projects } = await useAsyncData('home-projects', async () => {
-    const results = await queryCollection('content').all()
-    return (results as ContentItem[])
-      .filter(item => item.path?.match(/^\/projects\/[^/]+$/))
-      .sort((a, b) => (b.meta.featured ? 1 : 0) - (a.meta.featured ? 1 : 0))
-      .slice(0, 3)
+  const { data: projects } = await useAsyncData('home-projects', () => {
+    return queryCollection('projects')
+      .where('featured', '=', true)
+      .order('stars', 'DESC')
+      .limit(3)
+      .all()
   })
-
-  // Search state moved to app-level ContentSearch (use header button for global search)
 </script>
 
 <template>

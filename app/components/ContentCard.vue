@@ -1,8 +1,6 @@
 <script setup lang="ts">
-  import type { ContentItem } from '~/types/content'
-
   interface Props {
-    content: ContentItem
+    content: any
     type: 'article' | 'project'
     compact?: boolean
     showSecondaryAction?: boolean
@@ -62,8 +60,7 @@
   const visibilityBadge = computed(() => {
     if (props.type !== 'project') return null
 
-    const repo = props.content.meta?.repo
-    const isPublic = !!repo
+    const isPublic = !!props.content.repo
 
     if (!isPublic) return { label: 'Private', icon: 'i-heroicons-lock-closed' }
     return null
@@ -71,14 +68,13 @@
 
   // Get tags limited by compact mode
   const displayTags = computed(() => {
-    const tags = props.content.tags || props.content.meta?.tags || []
+    const tags = props.content.tags || []
     return props.compact ? tags.slice(0, 3) : tags
   })
 
   // Get image URL or placeholder
   const imageUrl = computed(() => {
-    const metaImage = props.content.meta?.image
-    if (metaImage) return metaImage
+    if (props.content.image) return props.content.image
 
     // Use placeholder with dynamic size based on compact mode
     const size = props.compact ? '300x180' : '400x240'
@@ -90,7 +86,7 @@
     return (
       props.type === 'project' &&
       props.showSecondaryAction &&
-      !!props.content.meta?.repo
+      !!props.content.repo
     )
   })
 </script>

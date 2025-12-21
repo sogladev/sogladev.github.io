@@ -1,19 +1,10 @@
 <script setup lang="ts">
-  import type { ContentItem } from '~/types/content'
-
   const searchQuery = ref('')
   const selectedTag = ref<string | null>(null)
 
-  // Fetch all articles
-  const { data: articles } = await useAsyncData('blog-articles', async () => {
-    const results = await queryCollection('content').all()
-    return (results as ContentItem[])
-      .filter((item: ContentItem) => item.path?.match(/^\/blog\/[^/]+$/))
-      .sort((a: ContentItem, b: ContentItem) => {
-        const dateA = a.meta?.date ? new Date(a.meta.date).getTime() : 0
-        const dateB = b.meta?.date ? new Date(b.meta.date).getTime() : 0
-        return dateB - dateA
-      })
+  // Fetch all articles from the blog collection
+  const { data: articles } = await useAsyncData('blog-articles', () => {
+    return queryCollection('blog').order('date', 'DESC').all()
   })
 
   // Extract unique tags

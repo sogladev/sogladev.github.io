@@ -1,18 +1,13 @@
 <script setup lang="ts">
-  import type { ContentItem } from '~/types/content'
   const searchQuery = ref('')
   const selectedTag = ref<string | null>(null)
 
-  // Fetch all projects
-  const { data: allContent } = await useAsyncData('projects', () =>
-    queryCollection('content').all()
-  )
-
-  const projects = computed(() => {
-    if (!allContent.value) return []
-    return allContent.value.filter(
-      item => item.path.startsWith('/projects/') && item.path !== '/projects'
-    )
+  // Fetch all projects from the projects collection
+  const { data: projects } = await useAsyncData('projects', () => {
+    return queryCollection('projects')
+      .order('featured', 'DESC')
+      .order('stars', 'DESC')
+      .all()
   })
 
   // Extract unique tags
@@ -49,12 +44,7 @@
       )
     }
 
-    // Sort by featured and stars
-    return filtered.sort((a, b) => {
-      if (a.featured && !b.featured) return -1
-      if (!a.featured && b.featured) return 1
-      return (b.stars || 0) - (a.stars || 0)
-    })
+    return filtered
   })
 
   const clearSearch = () => {
