@@ -71,18 +71,8 @@
 
   // Get tags limited by compact mode
   const displayTags = computed(() => {
-    const tags = props.content.meta?.tags || []
+    const tags = props.content.tags || props.content.meta?.tags || []
     return props.compact ? tags.slice(0, 3) : tags
-  })
-
-  // Primary tag (first tag) used to show prominent tech icon
-  const primaryTag = computed(() => {
-    const tags = props.content.meta?.tags || []
-    return tags.length ? tags[0] : null
-  })
-
-  const primaryIcon = computed(() => {
-    return primaryTag.value ? getTagIcon(primaryTag.value) : null
   })
 
   // Get image URL or placeholder
@@ -147,32 +137,6 @@
             >
               {{ visibilityBadge.label }}
             </UBadge>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <UTooltip
-              v-if="primaryIcon"
-              :text="`Primary technology: ${primaryTag}`"
-              :shortcuts="[]"
-            >
-              <UBadge
-                :icon="primaryIcon"
-                color="neutral"
-                variant="soft"
-                size="sm"
-                class="capitalize hidden sm:inline-flex items-center gap-2"
-              >
-                {{ primaryTag }}
-              </UBadge>
-            </UTooltip>
-            <UBadge
-              v-else
-              class="hidden sm:inline-flex"
-              color="neutral"
-              variant="soft"
-              size="sm"
-              :icon="'i-lucide-tag'"
-            />
           </div>
         </div>
 
