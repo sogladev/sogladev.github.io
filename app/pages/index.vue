@@ -64,11 +64,7 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
     .slice(0, 3);
 });
 
-// Search state and navigation for ContentSearch
-const searchTerm = ref("");
-const { data: navigation } = await useAsyncData("home-navigation", () =>
-  queryCollectionNavigation("content"),
-);
+// Search state moved to app-level ContentSearch (use header button for global search)
 </script>
 
 <template>
@@ -90,19 +86,7 @@ const { data: navigation } = await useAsyncData("home-navigation", () =>
       </div>
     </div>
 
-    <!-- Search Bar -->
-    <div class="py-8 border-b border-gray-200 dark:border-gray-800">
-      <ClientOnly>
-        <LazyUContentSearch
-          v-model:search-term="searchTerm"
-          shortcut="meta_k"
-          :modal="false"
-          :files="projects"
-          :navigation="navigation"
-          :fuse="{ resultLimit: 42 }"
-        />
-      </ClientOnly>
-    </div>
+    <!-- Search moved to the header: use the search button in the top-right to open global search -->
 
     <!-- Recent Blog Posts Section -->
     <div v-if="articles && articles.length > 0" class="py-12">
