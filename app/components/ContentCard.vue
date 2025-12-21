@@ -178,7 +178,8 @@
         </div>
 
         <!-- GitHub Action (projects only) -->
-        <div
+        <!-- Temporary disabled -->
+        <!-- <div
           v-if="hasGitHubLink"
           class="pt-4 border-t border-gray-200 dark:border-gray-800"
         >
@@ -193,7 +194,7 @@
           >
             View on GitHub
           </UButton>
-        </div>
+        </div> -->
       </div>
     </div>
   </UCard>
