@@ -1,9 +1,9 @@
 ---
-title: "Building Web APIs with Rust"
-description: "Learn how to build fast and reliable web APIs using Rust and Axum framework."
-tags: ["rust", "backend", "api"]
+title: 'Building Web APIs with Rust'
+description: 'Learn how to build fast and reliable web APIs using Rust and Axum framework.'
+tags: ['rust', 'backend', 'api']
 date: 2025-01-05
-author: "Your Name"
+author: 'Your Name'
 ---
 
 # Building Web APIs with Rust

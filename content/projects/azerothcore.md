@@ -1,9 +1,9 @@
 ---
-title: "AzerothCore"
-description: "Open-source MMORPG framework based on World of Warcraft 3.3.5a. A complete C++ server emulator with extensive modding support."
-tags: ["cpp", "sql", "game-dev"]
-image: "/images/projects/azerothcore.png"
-repo: "https://github.com/azerothcore/azerothcore-wotlk"
+title: 'AzerothCore'
+description: 'Open-source MMORPG framework based on World of Warcraft 3.3.5a. A complete C++ server emulator with extensive modding support.'
+tags: ['cpp', 'sql', 'game-dev']
+image: '/images/projects/azerothcore.png'
+repo: 'https://github.com/azerothcore/azerothcore-wotlk'
 featured: true
 stars: 3500
 ---

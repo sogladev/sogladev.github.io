@@ -1,85 +1,86 @@
 <script setup lang="ts">
-const route = useRoute();
+  const route = useRoute()
 
-// Icon mapping for different tech stacks and topics
-const tagIcons: Record<string, string> = {
-  rust: "i-simple-icons-rust",
-  cpp: "i-simple-icons-cplusplus",
-  "c++": "i-simple-icons-cplusplus",
-  typescript: "i-simple-icons-typescript",
-  javascript: "i-simple-icons-javascript",
-  python: "i-simple-icons-python",
-  lua: "i-simple-icons-lua",
-  sql: "i-simple-icons-mysql",
-  "game-dev": "i-heroicons-puzzle-piece",
-  cli: "i-heroicons-command-line",
-  devtools: "i-heroicons-wrench-screwdriver",
-  docker: "i-simple-icons-docker",
-  kubernetes: "i-simple-icons-kubernetes",
-  nodejs: "i-simple-icons-nodedotjs",
-  vue: "i-simple-icons-vuedotjs",
-  react: "i-simple-icons-react",
-  nuxt: "i-simple-icons-nuxtdotjs",
-  next: "i-simple-icons-nextdotjs",
-  tailwind: "i-simple-icons-tailwindcss",
-  tutorial: "i-heroicons-academic-cap",
-  guide: "i-heroicons-book-open",
-  tips: "i-heroicons-light-bulb",
-  performance: "i-heroicons-bolt",
-  security: "i-heroicons-shield-check",
-  database: "i-heroicons-circle-stack",
-  api: "i-heroicons-cloud",
-  web: "i-heroicons-globe-alt",
-  mobile: "i-heroicons-device-phone-mobile",
-};
+  // Icon mapping for different tech stacks and topics
+  const tagIcons: Record<string, string> = {
+    rust: 'i-simple-icons-rust',
+    cpp: 'i-simple-icons-cplusplus',
+    'c++': 'i-simple-icons-cplusplus',
+    typescript: 'i-simple-icons-typescript',
+    javascript: 'i-simple-icons-javascript',
+    python: 'i-simple-icons-python',
+    lua: 'i-simple-icons-lua',
+    sql: 'i-simple-icons-mysql',
+    'game-dev': 'i-heroicons-puzzle-piece',
+    cli: 'i-heroicons-command-line',
+    devtools: 'i-heroicons-wrench-screwdriver',
+    docker: 'i-simple-icons-docker',
+    kubernetes: 'i-simple-icons-kubernetes',
+    nodejs: 'i-simple-icons-nodedotjs',
+    vue: 'i-simple-icons-vuedotjs',
+    react: 'i-simple-icons-react',
+    nuxt: 'i-simple-icons-nuxtdotjs',
+    next: 'i-simple-icons-nextdotjs',
+    tailwind: 'i-simple-icons-tailwindcss',
+    tutorial: 'i-heroicons-academic-cap',
+    guide: 'i-heroicons-book-open',
+    tips: 'i-heroicons-light-bulb',
+    performance: 'i-heroicons-bolt',
+    security: 'i-heroicons-shield-check',
+    database: 'i-heroicons-circle-stack',
+    api: 'i-heroicons-cloud',
+    web: 'i-heroicons-globe-alt',
+    mobile: 'i-heroicons-device-phone-mobile'
+  }
 
-// Get icon for a tag, fallback to a default icon
-const getTagIcon = (tag: string): string => {
-  return tagIcons[tag.toLowerCase()] || "i-heroicons-hashtag";
-};
+  // Get icon for a tag, fallback to a default icon
+  const getTagIcon = (tag: string): string => {
+    return tagIcons[tag.toLowerCase()] || 'i-heroicons-hashtag'
+  }
 
-// Fetch the article
-const { data: article } = await useAsyncData(`blog-${route.params.slug}`, () =>
-  queryCollection("content").path(route.path).first(),
-);
+  // Fetch the article
+  const { data: article } = await useAsyncData(
+    `blog-${route.params.slug}`,
+    () => queryCollection('content').path(route.path).first()
+  )
 
-// Handle 404
-if (!article.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Article not found",
-    fatal: true,
-  });
-}
+  // Handle 404
+  if (!article.value) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Article not found',
+      fatal: true
+    })
+  }
 
-// Fetch related articles (same tags)
-const { data: relatedArticles } = await useAsyncData(
-  `related-${route.params.slug}`,
-  async () => {
-    if (!article.value?.tags?.length) return [];
+  // Fetch related articles (same tags)
+  const { data: relatedArticles } = await useAsyncData(
+    `related-${route.params.slug}`,
+    async () => {
+      if (!article.value?.tags?.length) return []
 
-    const results = await queryCollection("content").all();
-    return results
-      .filter(
-        (item: any) =>
-          item.path?.match(/^\/blog\/[^/]+$/) &&
-          item.path !== route.path &&
-          item.tags?.some((tag: string) => article.value?.tags?.includes(tag)),
-      )
-      .slice(0, 3);
-  },
-);
+      const results = await queryCollection('content').all()
+      return results
+        .filter(
+          (item: any) =>
+            item.path?.match(/^\/blog\/[^/]+$/) &&
+            item.path !== route.path &&
+            item.tags?.some((tag: string) => article.value?.tags?.includes(tag))
+        )
+        .slice(0, 3)
+    }
+  )
 
-// Fetch surround articles for navigation
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings("content", route.path),
-);
+  // Fetch surround articles for navigation
+  const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
+    queryCollectionItemSurroundings('content', route.path)
+  )
 
-// SEO
-useHead({
-  title: article.value?.title,
-  meta: [{ name: "description", content: article.value?.description }],
-});
+  // SEO
+  useHead({
+    title: article.value?.title,
+    meta: [{ name: 'description', content: article.value?.description }]
+  })
 </script>
 
 <template>
@@ -100,10 +101,10 @@ useHead({
         <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
           <span v-if="article.date">
             {{
-              new Date(article.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
+              new Date(article.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
               })
             }}
           </span>

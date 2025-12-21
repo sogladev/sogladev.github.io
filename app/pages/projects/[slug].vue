@@ -1,98 +1,98 @@
 <script setup lang="ts">
-const route = useRoute();
+  const route = useRoute()
 
-// Icon mapping for different tech stacks
-const tagIcons: Record<string, string> = {
-  rust: "i-simple-icons-rust",
-  cpp: "i-simple-icons-cplusplus",
-  "c++": "i-simple-icons-cplusplus",
-  typescript: "i-simple-icons-typescript",
-  javascript: "i-simple-icons-javascript",
-  python: "i-simple-icons-python",
-  lua: "i-simple-icons-lua",
-  sql: "i-simple-icons-mysql",
-  "game-dev": "i-heroicons-puzzle-piece",
-  cli: "i-heroicons-command-line",
-  devtools: "i-heroicons-wrench-screwdriver",
-  docker: "i-simple-icons-docker",
-  kubernetes: "i-simple-icons-kubernetes",
-  nodejs: "i-simple-icons-nodedotjs",
-  vue: "i-simple-icons-vuedotjs",
-  react: "i-simple-icons-react",
-  nuxt: "i-simple-icons-nuxtdotjs",
-  next: "i-simple-icons-nextdotjs",
-  tailwind: "i-simple-icons-tailwindcss",
-  api: "i-heroicons-cloud",
-  web: "i-heroicons-globe-alt",
-  mobile: "i-heroicons-device-phone-mobile",
-};
+  // Icon mapping for different tech stacks
+  const tagIcons: Record<string, string> = {
+    rust: 'i-simple-icons-rust',
+    cpp: 'i-simple-icons-cplusplus',
+    'c++': 'i-simple-icons-cplusplus',
+    typescript: 'i-simple-icons-typescript',
+    javascript: 'i-simple-icons-javascript',
+    python: 'i-simple-icons-python',
+    lua: 'i-simple-icons-lua',
+    sql: 'i-simple-icons-mysql',
+    'game-dev': 'i-heroicons-puzzle-piece',
+    cli: 'i-heroicons-command-line',
+    devtools: 'i-heroicons-wrench-screwdriver',
+    docker: 'i-simple-icons-docker',
+    kubernetes: 'i-simple-icons-kubernetes',
+    nodejs: 'i-simple-icons-nodedotjs',
+    vue: 'i-simple-icons-vuedotjs',
+    react: 'i-simple-icons-react',
+    nuxt: 'i-simple-icons-nuxtdotjs',
+    next: 'i-simple-icons-nextdotjs',
+    tailwind: 'i-simple-icons-tailwindcss',
+    api: 'i-heroicons-cloud',
+    web: 'i-heroicons-globe-alt',
+    mobile: 'i-heroicons-device-phone-mobile'
+  }
 
-// Get icon for a tag, fallback to a default icon
-const getTagIcon = (tag: string): string => {
-  return tagIcons[tag.toLowerCase()] || "i-heroicons-tag";
-};
+  // Get icon for a tag, fallback to a default icon
+  const getTagIcon = (tag: string): string => {
+    return tagIcons[tag.toLowerCase()] || 'i-heroicons-tag'
+  }
 
-// Fetch the project
-const { data: project } = await useAsyncData(
-  `project-${route.params.slug}`,
-  () => queryCollection("content").path(route.path).first(),
-);
+  // Fetch the project
+  const { data: project } = await useAsyncData(
+    `project-${route.params.slug}`,
+    () => queryCollection('content').path(route.path).first()
+  )
 
-// Handle 404
-if (!project.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Project not found",
-    fatal: true,
-  });
-}
+  // Handle 404
+  if (!project.value) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Project not found',
+      fatal: true
+    })
+  }
 
-// Fetch related projects (same tags)
-const { data: relatedProjects } = await useAsyncData(
-  `related-${route.params.slug}`,
-  async () => {
-    if (!project.value?.tags?.length) return [];
+  // Fetch related projects (same tags)
+  const { data: relatedProjects } = await useAsyncData(
+    `related-${route.params.slug}`,
+    async () => {
+      if (!project.value?.tags?.length) return []
 
-    type ContentItem = {
-      path: string;
-      tags?: string[];
-      title?: string;
-      description?: string;
-      repo?: string;
-      stars?: number;
-      featured?: boolean;
-    };
-    const related = (await queryCollection("content")
-      // Use correct API: where(field, operator, value)
-      .where("_path", "LIKE", "/projects/%")
-      .where("_path", "<>", route.path)
-      // fetch a few more and filter client-side for safety
-      .limit(10)
-      .all()) as unknown as ContentItem[];
+      type ContentItem = {
+        path: string
+        tags?: string[]
+        title?: string
+        description?: string
+        repo?: string
+        stars?: number
+        featured?: boolean
+      }
+      const related = (await queryCollection('content')
+        // Use correct API: where(field, operator, value)
+        .where('_path', 'LIKE', '/projects/%')
+        .where('_path', '<>', route.path)
+        // fetch a few more and filter client-side for safety
+        .limit(10)
+        .all()) as unknown as ContentItem[]
 
-    // Filter by matching tags, ensure path matches project pattern, exclude current, and limit to 3
-    const projectPathRegex = /^\/projects\/[^/]+$/;
-    return related
-      .filter(
-        (r: ContentItem) =>
-          projectPathRegex.test(r.path) &&
-          r.path !== route.path &&
-          r.tags?.some((tag: string) => project.value?.tags?.includes(tag)),
-      )
-      .slice(0, 3);
-  },
-);
+      // Filter by matching tags, ensure path matches project pattern, exclude current, and limit to 3
+      const projectPathRegex = /^\/projects\/[^/]+$/
+      return related
+        .filter(
+          (r: ContentItem) =>
+            projectPathRegex.test(r.path) &&
+            r.path !== route.path &&
+            r.tags?.some((tag: string) => project.value?.tags?.includes(tag))
+        )
+        .slice(0, 3)
+    }
+  )
 
-// Fetch surround projects for navigation
-const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings("content", route.path),
-);
+  // Fetch surround projects for navigation
+  const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
+    queryCollectionItemSurroundings('content', route.path)
+  )
 
-// SEO
-useHead({
-  title: project.value?.title,
-  meta: [{ name: "description", content: project.value?.description }],
-});
+  // SEO
+  useHead({
+    title: project.value?.title,
+    meta: [{ name: 'description', content: project.value?.description }]
+  })
 </script>
 
 <template>

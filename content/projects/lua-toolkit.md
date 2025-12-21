@@ -1,9 +1,9 @@
 ---
-title: "Lua Automation Toolkit"
-description: "A lightweight scripting toolkit for automation tasks, built with Lua and LuaJIT for maximum performance."
-tags: ["lua", "automation", "scripting"]
-image: "/images/projects/lua-toolkit.png"
-repo: "https://github.com/username/lua-toolkit"
+title: 'Lua Automation Toolkit'
+description: 'A lightweight scripting toolkit for automation tasks, built with Lua and LuaJIT for maximum performance.'
+tags: ['lua', 'automation', 'scripting']
+image: '/images/projects/lua-toolkit.png'
+repo: 'https://github.com/username/lua-toolkit'
 featured: true
 stars: 450
 ---

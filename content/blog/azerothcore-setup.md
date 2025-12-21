@@ -1,9 +1,9 @@
 ---
-title: "AzerothCore Setup Guide"
-description: "A complete guide to setting up and running AzerothCore locally for World of Warcraft private server development."
-tags: ["cpp", "sql", "guide", "azerothcore"]
+title: 'AzerothCore Setup Guide'
+description: 'A complete guide to setting up and running AzerothCore locally for World of Warcraft private server development.'
+tags: ['cpp', 'sql', 'guide', 'azerothcore']
 date: 2025-01-15
-author: "Your Name"
+author: 'Your Name'
 ---
 
 # AzerothCore Setup Guide
@@ -67,11 +67,11 @@ GRANT ALL PRIVILEGES ON acore_auth.* TO 'acore'@'localhost';
 Edit your `worldserver.conf`:
 
 ```yml
-DataDir: "./data"
-LogsDir: "./logs"
-LoginDatabaseInfo: "127.0.0.1;3306;acore;password;acore_auth"
-WorldDatabaseInfo: "127.0.0.1;3306;acore;password;acore_world"
-CharacterDatabaseInfo: "127.0.0.1;3306;acore;password;acore_characters"
+DataDir: './data'
+LogsDir: './logs'
+LoginDatabaseInfo: '127.0.0.1;3306;acore;password;acore_auth'
+WorldDatabaseInfo: '127.0.0.1;3306;acore;password;acore_world'
+CharacterDatabaseInfo: '127.0.0.1;3306;acore;password;acore_characters'
 ```
 
 ## Running the Server

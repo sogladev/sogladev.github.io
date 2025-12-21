@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <AppHeader>
-            <UMain>
-                <slot />
-            </UMain>
-        </AppHeader>
-    </div>
+  <div>
+    <AppHeader>
+      <UMain>
+        <slot />
+      </UMain>
+    </AppHeader>
+  </div>
 </template>

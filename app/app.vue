@@ -1,50 +1,50 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
+  import type { NavigationMenuItem } from '@nuxt/ui'
 
-const route = useRoute();
+  const route = useRoute()
 
-// Navigation items for the header
-const navItems = computed<NavigationMenuItem[]>(() => [
-  {
-    label: "Home",
-    to: "/",
-    active: route.path === "/",
-  },
-  {
-    label: "Blog",
-    to: "/blog",
-    active: route.path.startsWith("/blog"),
-  },
-  {
-    label: "Projects",
-    to: "/projects",
-    active: route.path.startsWith("/projects"),
-  },
-]);
+  // Navigation items for the header
+  const navItems = computed<NavigationMenuItem[]>(() => [
+    {
+      label: 'Home',
+      to: '/',
+      active: route.path === '/'
+    },
+    {
+      label: 'Blog',
+      to: '/blog',
+      active: route.path.startsWith('/blog')
+    },
+    {
+      label: 'Projects',
+      to: '/projects',
+      active: route.path.startsWith('/projects')
+    }
+  ])
 
-// Footer links
-const footerLinks: NavigationMenuItem[] = [
-  {
-    label: "GitHub",
-    to: "https://github.com",
-    target: "_blank",
-  },
-];
+  // Footer links
+  const footerLinks: NavigationMenuItem[] = [
+    {
+      label: 'GitHub',
+      to: 'https://github.com',
+      target: '_blank'
+    }
+  ]
 
-// Content search setup (for @nuxt/content integration)
-const { data: files } = useLazyAsyncData(
-  "search",
-  () => queryCollectionSearchSections("content"),
-  {
-    server: false,
-  },
-);
+  // Content search setup (for @nuxt/content integration)
+  const { data: files } = useLazyAsyncData(
+    'search',
+    () => queryCollectionSearchSections('content'),
+    {
+      server: false
+    }
+  )
 
-const { data: navigation } = await useAsyncData("navigation", () =>
-  queryCollectionNavigation("content"),
-);
+  const { data: navigation } = await useAsyncData('navigation', () =>
+    queryCollectionNavigation('content')
+  )
 
-const searchTerm = ref("");
+  const searchTerm = ref('')
 </script>
 
 <template>

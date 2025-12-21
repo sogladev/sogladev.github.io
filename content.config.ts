@@ -14,8 +14,8 @@ export default defineContentConfig({
         image: z.string().optional(),
         repo: z.string().optional(),
         featured: z.boolean().optional(),
-        stars: z.number().optional(),
-      }),
-    }),
-  },
+        stars: z.number().optional()
+      })
+    })
+  }
 })

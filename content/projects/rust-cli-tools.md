@@ -1,9 +1,9 @@
 ---
-title: "Rust CLI Tools Collection"
-description: "A curated collection of command-line utilities built with Rust for developer productivity."
-tags: ["rust", "cli", "devtools"]
-image: "/images/projects/rust-cli.png"
-repo: "https://github.com/username/rust-cli-tools"
+title: 'Rust CLI Tools Collection'
+description: 'A curated collection of command-line utilities built with Rust for developer productivity.'
+tags: ['rust', 'cli', 'devtools']
+image: '/images/projects/rust-cli.png'
+repo: 'https://github.com/username/rust-cli-tools'
 featured: false
 stars: 820
 ---
