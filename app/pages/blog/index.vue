@@ -116,7 +116,7 @@ useHead({
   <UContainer>
     <div class="py-12">
       <!-- Header -->
-      <div class="mb-12">
+      <div class="mb-6">
         <h1 class="text-4xl font-bold mb-4">Blog</h1>
         <p class="text-xl text-gray-600 dark:text-gray-400">
           Technical articles, guides, and tutorials

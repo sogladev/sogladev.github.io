@@ -83,7 +83,7 @@ const { data: projects } = await useAsyncData("home-projects", async () => {
     <!-- Featured Projects Section -->
     <div
       v-if="projects && projects.length > 0"
-      class="py-12 bg-gray-50 dark:bg-gray-900/50"
+      class="py-6 bg-gray-50 dark:bg-gray-900/50"
     >
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">

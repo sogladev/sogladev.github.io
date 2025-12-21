@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ContentItem } from "~/types/content";
 const searchQuery = ref("");
 const selectedTag = ref<string | null>(null);
 
@@ -110,7 +111,7 @@ useHead({
   <UContainer>
     <div class="py-12">
       <!-- Header -->
-      <div class="mb-12">
+      <div class="mb-6">
         <h1 class="text-4xl font-bold mb-4">Projects</h1>
         <p class="text-xl text-gray-600 dark:text-gray-400">
           A collection of my open-source projects and contributions
@@ -174,9 +175,9 @@ useHead({
       <div v-if="filteredProjects.length > 0">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ContentCard
-            v-for="project in filteredProjects"
+            v-for="project in filteredProjects.filter((p) => p.title)"
             :key="project.path"
-            :content="project"
+            :content="project as ContentItem"
             type="project"
           />
         </div>
