@@ -19,53 +19,37 @@ date: 2025-01-01
 
 This article documents a **Linux-focused AzerothCore development setup** aimed at contributors working on **stock 3.3.5 (WotLK)** behavior.
 
-The goal is not merely to “run AzerothCore,” but to create a **high-signal development environment** that supports:
+The goal is not merely to “run AzerothCore,” but to create a **development environment** that supports:
 
-- Reliable triage and regression testing
 - Cross-core comparison (AzerothCore, TrinityCore, CMaNGOS, VMaNGOS, TSWoW)
 - Clean before/after validation when working on bugs or pull requests
 - Reduced duplicate effort across the 3.3.5 open-source ecosystem
 
 > **TL;DR**
-> Did you know CMaNGOS has a working **Thundra Mammoth** implementation?
-> See: `https://github.com/azerothcore/azerothcore-wotlk/issues/3778`
+> AzerothCore issue: Buggy **Traveler's Tundra Mammoth** vendors
+:::vue
+<GitHubIssueLink owner="azerothcore" repo="azerothcore-wotlk" number="3778" />
+:::
+
 >
-> Booting 1.12 reveals systems that _should_ exist in 3.3.5.
-> Example: VMangos’ dynamic guard assistance system.
-
-https://github.com/azerothcore/azerothcore-wotlk/issues/10571
-
-https://github.com/vmangos/core/commit/5d7467f79b58eaa46c17f4a9fb2a395d3d3ec00a
-
-The setup presented here is intentionally **stock-focused**. Custom content and modifications are discussed only insofar as they facilitate development and testing.
-
----
+> Cross-core insights:
+> - CMaNGOS has a working implementation
+>
+> Booting other cores can reveal systems that are missing or incomplete. This setup emphasizes **stock correctness** while leveraging cross-core comparisons to identify and address gaps in AzerothCore.
 
 ## Philosophy: Why This Setup Exists
 
-### Stock First
-
-AzerothCore is GPLv2-licensed and governed by explicit contribution guidelines.  
-Stock correctness matters more than novelty.
-
-As Shin has repeatedly emphasized in contribution discussions:
-
-> “If it’s not stock, it doesn’t belong in core.”
-
-This guide assumes you are working **within those constraints**.
+AzerothCore is GPLv2-licensed and governed by explicit contribution guidelines.
 
 ### Why Multiple Cores?
 
 Running multiple 3.3.5 and 1.12 cores side-by-side allows you to:
 
-- Confirm whether a behavior is **Blizzard-accurate**, missing, or incorrect
+- Confirm whether a behavior is missing, or incorrect
 - Avoid re-implementing already-solved systems
-- Raise the **quality floor** of the entire emulator ecosystem
 
-You _can_ run all of them simultaneously.  
+You _can_ run all of them simultaneously.
 You probably _should not_, unless you are actively triaging.
-
----
 
 ## Scope and Assumptions
 
@@ -78,7 +62,7 @@ This guide builds on the official documentation:
 You are expected to already have:
 
 - A working AzerothCore checkout
-- Maps, DBCs, and vmaps generated
+- Maps, DBCs, and vmaps extracted
 - Basic familiarity with MySQL and Linux tooling
 
 This article **links**, rather than repeats, foundational steps.
@@ -86,10 +70,8 @@ This article **links**, rather than repeats, foundational steps.
 ### Platform Focus
 
 - Primary target: **Linux**
-- Tested on: Ubuntu 22.04
+- Tested on: Fedora 42
 - Some steps may apply to other distros or macOS, but are not guaranteed
-
----
 
 ## High-Level Architecture
 
@@ -98,15 +80,6 @@ This article **links**, rather than repeats, foundational steps.
 - **Dual-database strategy** (dev vs reference)
 - **Containerized databases** to avoid host conflicts
 - **Multiple cores** isolated by ports and credentials
-- **Client reuse** wherever possible (future work)
-
-### What This Is _Not_
-
-- A custom server tutorial
-- A gameplay-mod guide
-- A repack
-
----
 
 ## Stock vs Modding (Important Distinction)
 
@@ -123,12 +96,9 @@ These exist solely to accelerate validation.
 ### Out of Scope (for This Article)
 
 - Client-side modding
-- Heavy gameplay alterations
-- Long-term custom progression systems
+- Gameplay alterations
 
-> The more client drift you introduce, the harder it becomes to reason about stock correctness.
-
----
+> The more client and server drift you introduce, the harder it becomes to reason about stock correctness.
 
 ## Dual Database Setup (AzerothCore)
 
@@ -142,12 +112,10 @@ Separating databases has proven extremely valuable during development.
 
 - **Dev DB**
   - Frequent changes
-  - Experimental SmartAI edits
+  - SmartAI edits
   - Safe to break
 
 This approach avoids repeated `DROP DATABASE + import` cycles and works particularly well with **Keira3**, where you can diff and selectively restore entries.
-
----
 
 ### MySQL Initialization
 
@@ -169,11 +137,9 @@ GRANT ALL PRIVILEGES ON `acore_auth`.* TO 'acore'@'%';
 
 -- Optional tooling databases
 CREATE DATABASE IF NOT EXISTS `acore_spells`;
-CREATE DATABASE IF NOT EXISTS `acore_playerbots`;
 CREATE DATABASE IF NOT EXISTS `acore_dbc`;
 
 GRANT ALL PRIVILEGES ON `acore_spells`.* TO 'acore'@'%';
-GRANT ALL PRIVILEGES ON `acore_playerbots`.* TO 'acore'@'%';
 GRANT ALL PRIVILEGES ON `acore_dbc`.* TO 'acore'@'%';
 ```
 
@@ -210,6 +176,19 @@ services:
 volumes:
   ac-database:
   ac-database-2:
+```
+
+Allows us to run Keira3 on separate ports 3311 and 3312. It's easy to add more containers if you need to work on modules, playerbots, etc.
+
+## Core setup
+
+Fedora 42
+
+Local setup. This should be OK for AC. But may be incompatible. When in doubt, use official instructions for Ubuntu LTS either in a distrobox or VM (see below). Local setup is what I prefer due to ease of debugging.
+
+```zsh
+dnf group install c-development
+dnf install boost cmake openssl-devel readline-devel bzip2 clang lldb lld clang-format clang-tidy boost-devel
 ```
 
 ### Other Cores (Cross-Reference Setup)
@@ -270,6 +249,34 @@ This enables:
 Fast inspection
 
 SQL querying
+
+## Dotfiles
+
+VSCode setup (lldb, gdb)
+conf.sh (Debug, ASAN)
+.clangd files (formatter, clang-tidy checks)
+
+https://gist.github.com/sogladev/c90aa1562b6f60d624b154366e868560
+
+## Tools
+
+Sniffer
+https://github.com/TrinityCore/ymir
+https://www.azerothcore.org/wiki/sniffing-and-parsing
+
+Sniff parsing
+https://github.com/BAndysc/WoWDatabaseEditor
+
+Spell DBC
+https://github.com/azerothcore/SpellWork
+
+https://github.com/stoneharry/WoW-Spell-Editor
+
+https://github.com/freadblangks/WDBXEditor
+
+wow_dbc
+
+
 
 ## Future
 
