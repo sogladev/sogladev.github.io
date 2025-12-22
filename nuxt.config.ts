@@ -11,7 +11,10 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/icon',
   ],
-  devtools: { enabled: true },
+  devtools: { enabled: true, viteDevTools: true },
   css: ['~/assets/css/main.css'],
+  routeRules: {
+    '/.well-known/**': { cache: { maxAge: 60 * 10 } },
+  },
   compatibilityDate: '2024-04-03',
 })
