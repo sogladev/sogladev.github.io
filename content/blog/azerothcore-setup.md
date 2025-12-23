@@ -1,6 +1,7 @@
 ---
 title: 'AzerothCore Development Setup (Linux)'
-description: 'A Linux-focused, stock AzerothCore development environment.
+description: 'A Linux-focused, stock AzerothCore development environment.'
+image: '/images/acore_thumbnail_16_9.png'
 tags:
   [
     'cpp',
