@@ -13,10 +13,8 @@ export default createConfigForNuxt({
     src: ['./app', './content'],
   },
 })
-  // @ts-expect-error - ESLint flat config append is correctly typed
   .append({
     rules: {
-      'vue/multi-word-component-names': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },
