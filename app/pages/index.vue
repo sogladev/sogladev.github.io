@@ -8,7 +8,7 @@
         <h1
           class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4"
         >
-          Welcome to My Dev Portfolio
+          Software Engineer focused on open-source systems
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-400">
           Building open-source tools, systems, and long-running projects, from low-level C++ cores to modern cross-platform applications.
