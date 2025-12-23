@@ -16,34 +16,8 @@
       </div>
     </div>
 
-    <!-- Recent Articles Section -->
-    <div class="py-12">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-            Recent Articles
-          </h2>
-          <UButton
-            to="/articles"
-            variant="outline"
-            trailing-icon="i-heroicons-arrow-right"
-          >
-            View All Articles
-          </UButton>
-        </div>
-
-        <ListPage
-          collection="articles"
-          card-variant="compact"
-          :limit="3"
-          :show-controls="false"
-          :show-results-count="false"
-        />
-      </div>
-    </div>
-
     <!-- Featured Projects Section -->
-    <div class="py-6 bg-gray-50 dark:bg-gray-900/50">
+    <div class="py-12">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -63,6 +37,32 @@
           card-variant="compact"
           :limit="3"
           :featured-only="true"
+          :show-controls="false"
+          :show-results-count="false"
+        />
+      </div>
+    </div>
+
+    <!-- Recent Articles Section -->
+    <div class="py-12 bg-gray-50 dark:bg-gray-900/50">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Recent Articles
+          </h2>
+          <UButton
+            to="/articles"
+            variant="outline"
+            trailing-icon="i-heroicons-arrow-right"
+          >
+            View All Articles
+          </UButton>
+        </div>
+
+        <ListPage
+          collection="articles"
+          card-variant="compact"
+          :limit="3"
           :show-controls="false"
           :show-results-count="false"
         />
