@@ -13,6 +13,19 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true, viteDevTools: true },
   css: ['~/assets/css/main.css'],
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'github-dark',
+          },
+          langs: ['sql', 'cpp', 'yaml', 'bash', 'shell', 'zsh', 'typescript', 'javascript', 'markdown'],
+        },
+      },
+    },
+  },
   routeRules: {
     '/.well-known/**': { cache: { maxAge: 60 * 10 } },
   },
