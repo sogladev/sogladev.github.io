@@ -1,11 +1,2 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
-
-.prose img,
-.prose pre {
-  max-width: 100%;
-}
-
-.prose pre {
-  overflow: auto;
-}
