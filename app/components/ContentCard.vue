@@ -3,15 +3,20 @@ interface Props {
   content: any
   type: 'article' | 'project'
   compact?: boolean
+  variant?: 'grid' | 'compact' | 'featured' | 'list'
   showSecondaryAction?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   compact: false,
+  variant: 'grid',
   showSecondaryAction: true,
 })
 
 const { getTagIcon } = useTagIcons()
+
+// Derived compact flag (either explicit `compact` or via `variant`)
+const isCompact = computed(() => props.compact || props.variant === 'compact' || props.variant === 'grid')
 
 // Compute visibility badges
 const visibilityBadge = computed(() => {
@@ -26,7 +31,7 @@ const visibilityBadge = computed(() => {
 // Get tags limited by compact mode
 const displayTags = computed(() => {
   const tags = props.content.tags || []
-  return props.compact ? tags.slice(0, 3) : tags
+  return isCompact.value ? tags.slice(0, 3) : tags
 })
 
 // Get image URL or placeholder
@@ -34,7 +39,7 @@ const imageUrl = computed(() => {
   if (props.content.image) return props.content.image
 
   // Use placeholder with dynamic size based on compact mode
-  const size = props.compact ? '300x180' : '400x240'
+  const size = isCompact.value ? '300x180' : '400x240'
   return `https://placehold.jp/cccccc/ffffff/${size}.png?text=${encodeURIComponent(props.type === 'article' ? 'Article' : 'Project')}`
 })
 </script>
@@ -95,7 +100,7 @@ const imageUrl = computed(() => {
           <h3
             :class="[
               'font-bold line-clamp-2 group-hover:text-primary transition-colors',
-              compact ? 'text-xl' : 'text-2xl',
+              isCompact ? 'text-xl' : 'text-2xl',
             ]"
           >
             {{ content.title }}
@@ -106,7 +111,7 @@ const imageUrl = computed(() => {
         <p
           :class="[
             'text-gray-600 dark:text-gray-400',
-            compact ? 'line-clamp-2' : 'line-clamp-3',
+            isCompact ? 'line-clamp-2' : 'line-clamp-3',
           ]"
         >
           {{ content.description }}

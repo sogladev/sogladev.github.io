@@ -1,19 +1,3 @@
-<script setup lang="ts">
-// Fetch recent articles
-const { data: articles } = await useAsyncData('home-articles', () => {
-  return queryCollection('blog').order('date', 'DESC').limit(3).all()
-})
-
-// Fetch featured projects
-const { data: projects } = await useAsyncData('home-projects', () => {
-  return queryCollection('projects')
-    .where('featured', '=', true)
-    .order('stars', 'DESC')
-    .limit(3)
-    .all()
-})
-</script>
-
 <template>
   <div>
     <!-- Hero Section -->
@@ -33,11 +17,8 @@ const { data: projects } = await useAsyncData('home-projects', () => {
       </div>
     </div>
 
-    <!-- Recent Blog Posts Section -->
-    <div
-      v-if="articles && articles.length > 0"
-      class="py-12"
-    >
+    <!-- Recent Articles Section -->
+    <div class="py-12">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -52,24 +33,18 @@ const { data: projects } = await useAsyncData('home-projects', () => {
           </UButton>
         </div>
 
-        <UPageGrid>
-          <ContentCard
-            v-for="article in articles"
-            :key="article.path"
-            :content="article"
-            type="article"
-            compact
-            :show-secondary-action="false"
-          />
-        </UPageGrid>
+        <ListPage
+          collection="blog"
+          card-variant="compact"
+          :limit="3"
+          :show-controls="false"
+          :show-results-count="false"
+        />
       </div>
     </div>
 
     <!-- Featured Projects Section -->
-    <div
-      v-if="projects && projects.length > 0"
-      class="py-6 bg-gray-50 dark:bg-gray-900/50"
-    >
+    <div class="py-6 bg-gray-50 dark:bg-gray-900/50">
       <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-center justify-between mb-8">
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -84,15 +59,14 @@ const { data: projects } = await useAsyncData('home-projects', () => {
           </UButton>
         </div>
 
-        <UPageGrid>
-          <ContentCard
-            v-for="project in projects"
-            :key="project.path"
-            :content="project"
-            type="project"
-            compact
-          />
-        </UPageGrid>
+        <ListPage
+          collection="projects"
+          card-variant="compact"
+          :limit="3"
+          :featured-only="true"
+          :show-controls="false"
+          :show-results-count="false"
+        />
       </div>
     </div>
   </div>
