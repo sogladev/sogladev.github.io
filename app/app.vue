@@ -74,7 +74,7 @@ const searchTerm = ref('')
     </ClientOnly>
 
     <!-- Header with UHeader -->
-    <UHeader title="DevPortfolio">
+    <UHeader title="Sogladev">
       <template #title>
         <div class="flex items-center gap-3">
           <NuxtImg
@@ -85,7 +85,7 @@ const searchTerm = ref('')
             class="rounded-full"
           />
           <span class="font-bold text-xl hover:text-primary transition-colors">
-            DevPortfolio
+            Sogladev
           </span>
         </div>
       </template>
@@ -126,7 +126,7 @@ const searchTerm = ref('')
     <UFooter>
       <template #left>
         <p class="text-sm text-muted">
-          © {{ new Date().getFullYear() }} DevPortfolio. Built with Nuxt & Nuxt
+          © {{ new Date().getFullYear() }} Sogladev. Built with Nuxt & Nuxt
           UI.
         </p>
       </template>
