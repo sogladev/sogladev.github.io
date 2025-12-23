@@ -12,22 +12,22 @@
         "@nuxt/scripts": "0.13.2",
         "@nuxt/test-utils": "3.21.0",
         "@nuxt/ui": "4.3.0",
-        "@unhead/vue": "^2.0.3",
+        "@unhead/vue": "^2.0.19",
         "better-sqlite3": "^12.5.0",
-        "eslint": "^9.0.0",
+        "eslint": "^9.39.2",
         "nuxt": "^4.2.2",
-        "typescript": "^5.6.3",
+        "typescript": "^5.9.3",
       },
       "devDependencies": {
         "@iconify-json/heroicons": "^1.2.3",
         "@iconify-json/lucide": "^1.2.82",
         "@iconify-json/simple-icons": "^1.2.63",
-        "@types/node": "^20.9.0",
-        "@vitejs/devtools": "^0.0.0-alpha.21",
+        "@types/node": "^20.19.27",
+        "@vitejs/devtools": "^0.0.0-alpha.22",
         "@xterm/addon-fit": "^0.11.0",
         "@xterm/xterm": "^6.0.0",
-        "eslint-plugin-vue": "^9.31.0",
-        "vue-tsc": "^2.2.0",
+        "eslint-plugin-vue": "^9.33.0",
+        "vue-tsc": "^2.2.12",
         "xterm": "^5.3.0",
       },
     },
@@ -827,13 +827,13 @@
 
     "@vercel/nft": ["@vercel/nft@0.30.4", "", { "dependencies": { "@mapbox/node-pre-gyp": "^2.0.0", "@rollup/pluginutils": "^5.1.3", "acorn": "^8.6.0", "acorn-import-attributes": "^1.9.5", "async-sema": "^3.1.1", "bindings": "^1.4.0", "estree-walker": "2.0.2", "glob": "^10.5.0", "graceful-fs": "^4.2.9", "node-gyp-build": "^4.2.2", "picomatch": "^4.0.2", "resolve-from": "^5.0.0" }, "bin": { "nft": "out/cli.js" } }, "sha512-wE6eAGSXScra60N2l6jWvNtVK0m+sh873CpfZW4KI2v8EHuUQp+mSEi4T+IcdPCSEDgCdAS/7bizbhQlkjzrSA=="],
 
-    "@vitejs/devtools": ["@vitejs/devtools@0.0.0-alpha.21", "", { "dependencies": { "@vitejs/devtools-kit": "0.0.0-alpha.21", "@vitejs/devtools-rpc": "0.0.0-alpha.21", "@vitejs/devtools-vite": "0.0.0-alpha.21", "birpc": "^4.0.0", "birpc-x": "0.0.6", "cac": "^6.7.14", "debug": "^4.4.3", "immer": "^11.1.0", "launch-editor": "^2.12.0", "mlly": "^1.8.0", "open": "^11.0.0", "pathe": "^2.0.3", "perfect-debounce": "^2.0.0", "sirv": "^3.0.2", "tinyexec": "^1.0.2", "ws": "^8.18.3" }, "peerDependencies": { "vite": "*" }, "bin": { "vite-devtools": "bin.js" } }, "sha512-XrDMxmSnRcrc9DUpKVb41YngzmFOHAAotMLrErWKzOuOfb9PZhAwC97SsrqihJi046uor6UmyiCT+aOQl8IFwA=="],
+    "@vitejs/devtools": ["@vitejs/devtools@0.0.0-alpha.22", "", { "dependencies": { "@vitejs/devtools-kit": "0.0.0-alpha.22", "@vitejs/devtools-rpc": "0.0.0-alpha.22", "@vitejs/devtools-vite": "0.0.0-alpha.22", "birpc": "^4.0.0", "birpc-x": "0.0.6", "cac": "^6.7.14", "debug": "^4.4.3", "immer": "^11.1.0", "launch-editor": "^2.12.0", "mlly": "^1.8.0", "open": "^11.0.0", "pathe": "^2.0.3", "perfect-debounce": "^2.0.0", "sirv": "^3.0.2", "tinyexec": "^1.0.2", "ws": "^8.18.3" }, "peerDependencies": { "vite": "*" }, "bin": { "vite-devtools": "bin.js" } }, "sha512-jIBzzSTA+Ne5tTdrUxYrc3Q65uy4gp7YG1nG1x8uEwDJK0djjdDuvd4UfK+EUGpN83XTimxjpoLAxo7e+gsqfg=="],
 
-    "@vitejs/devtools-kit": ["@vitejs/devtools-kit@0.0.0-alpha.21", "", { "dependencies": { "@vitejs/devtools-rpc": "0.0.0-alpha.21", "birpc": "^4.0.0", "birpc-x": "0.0.6", "immer": "^11.1.0" }, "peerDependencies": { "vite": "*" } }, "sha512-dq5AQxY7DT0FFfoq4ElH0BIviuMTAeBowpaAs/m5drAohLeJiTndy/wkWunCy8BN3+51FAsh0X1n2MUsARMGjw=="],
+    "@vitejs/devtools-kit": ["@vitejs/devtools-kit@0.0.0-alpha.22", "", { "dependencies": { "@vitejs/devtools-rpc": "0.0.0-alpha.22", "birpc": "^4.0.0", "birpc-x": "0.0.6", "immer": "^11.1.0" }, "peerDependencies": { "vite": "*" } }, "sha512-2aCwNazr7qM90NBDn4/F8AePLm0/jO/zHeBJg84z2WtB5W7kRpt1Tl8oC1Q71ZoFS7wh+wt6mNHi4TU6q3JBRw=="],
 
-    "@vitejs/devtools-rpc": ["@vitejs/devtools-rpc@0.0.0-alpha.21", "", { "dependencies": { "birpc": "^4.0.0", "structured-clone-es": "^1.0.0" } }, "sha512-PvoGFX4/ywAy7KEVvw6+/Q5vLfnwI14Nfyi+f1gCi6PnEsGS4BFh+W2BCjiWSBsTtbKsG/j+9FB9s8riZ6Dpkw=="],
+    "@vitejs/devtools-rpc": ["@vitejs/devtools-rpc@0.0.0-alpha.22", "", { "dependencies": { "birpc": "^4.0.0", "structured-clone-es": "^1.0.0" } }, "sha512-qokujNSRp1ctnV4KJSeso8dLDdkMt/+P3wt76mHPtBJkTpyZDtFCzoxP32MqnFHlgDRCeoMIcmSyzVHT1Uy0Ng=="],
 
-    "@vitejs/devtools-vite": ["@vitejs/devtools-vite@0.0.0-alpha.21", "", { "dependencies": { "@floating-ui/dom": "^1.7.4", "@pnpm/read-project-manifest": "^1001.2.3", "@rolldown/debug": "^1.0.0-beta.56", "@vitejs/devtools-kit": "0.0.0-alpha.21", "@vitejs/devtools-rpc": "0.0.0-alpha.21", "ansis": "^4.2.0", "birpc": "^4.0.0", "cac": "^6.7.14", "d3-shape": "^3.2.0", "diff": "^8.0.2", "get-port-please": "^3.2.0", "h3": "^1.15.4", "mlly": "^1.8.0", "mrmime": "^2.0.1", "ohash": "^2.0.11", "p-limit": "^7.2.0", "pathe": "^2.0.3", "publint": "^0.3.16", "sirv": "^3.0.2", "split2": "^4.2.0", "structured-clone-es": "^1.0.0", "tinyglobby": "^0.2.15", "unconfig": "^7.4.2", "unstorage": "^1.17.3", "vue-virtual-scroller": "^2.0.0-beta.8", "ws": "^8.18.3" } }, "sha512-sQksj778KdpTeg3HFsDy/6UlA2WJByZOanUzd/TBzdHbUEng+jcZwBVz/li0H+nVPB7MFKEqf4Te41KmB1iilQ=="],
+    "@vitejs/devtools-vite": ["@vitejs/devtools-vite@0.0.0-alpha.22", "", { "dependencies": { "@floating-ui/dom": "^1.7.4", "@pnpm/read-project-manifest": "^1001.2.3", "@rolldown/debug": "^1.0.0-beta.56", "@vitejs/devtools-kit": "0.0.0-alpha.22", "@vitejs/devtools-rpc": "0.0.0-alpha.22", "ansis": "^4.2.0", "birpc": "^4.0.0", "cac": "^6.7.14", "d3-shape": "^3.2.0", "diff": "^8.0.2", "get-port-please": "^3.2.0", "h3": "^1.15.4", "mlly": "^1.8.0", "mrmime": "^2.0.1", "ohash": "^2.0.11", "p-limit": "^7.2.0", "pathe": "^2.0.3", "publint": "^0.3.16", "sirv": "^3.0.2", "split2": "^4.2.0", "structured-clone-es": "^1.0.0", "tinyglobby": "^0.2.15", "unconfig": "^7.4.2", "unstorage": "^1.17.3", "vue-virtual-scroller": "^2.0.0-beta.8", "ws": "^8.18.3" } }, "sha512-iGtEWnOkWB58SvMNMqhVGMy7qtMhkiXVmVjbaszJODWJzRAgLf3JI1EYwzFYNDIb06Hpl7i/nxt37wfY67Cb2A=="],
 
     "@vitejs/plugin-vue": ["@vitejs/plugin-vue@6.0.3", "", { "dependencies": { "@rolldown/pluginutils": "1.0.0-beta.53" }, "peerDependencies": { "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0", "vue": "^3.2.25" } }, "sha512-TlGPkLFLVOY3T7fZrwdvKpjprR3s4fxRln0ORDo1VQ7HHyxJwTlrjKU3kpVWTlaAjIEuCTokmjkZnr8Tpc925w=="],
 
