@@ -76,9 +76,18 @@ const searchTerm = ref('')
     <!-- Header with UHeader -->
     <UHeader title="DevPortfolio">
       <template #title>
-        <span class="font-bold text-xl hover:text-primary transition-colors">
-          DevPortfolio
-        </span>
+        <div class="flex items-center gap-3">
+          <NuxtImg
+            provider="github"
+            src="sogladev"
+            height="20"
+            width="20"
+            class="rounded-full"
+          />
+          <span class="font-bold text-xl hover:text-primary transition-colors">
+            DevPortfolio
+          </span>
+        </div>
       </template>
 
       <!-- Navigation Menu in center -->

@@ -30,4 +30,7 @@ export default defineNuxtConfig({
     '/.well-known/**': { cache: { maxAge: 60 * 10 } },
   },
   compatibilityDate: '2024-04-03',
+  image: {
+    provider: 'github',
+  },
 })
