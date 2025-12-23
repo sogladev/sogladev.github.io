@@ -52,7 +52,7 @@ const { data: projects } = await useAsyncData('home-projects', () => {
           </UButton>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <UPageGrid>
           <ContentCard
             v-for="article in articles"
             :key="article.path"
@@ -61,7 +61,7 @@ const { data: projects } = await useAsyncData('home-projects', () => {
             compact
             :show-secondary-action="false"
           />
-        </div>
+        </UPageGrid>
       </div>
     </div>
 
@@ -84,7 +84,7 @@ const { data: projects } = await useAsyncData('home-projects', () => {
           </UButton>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <UPageGrid>
           <ContentCard
             v-for="project in projects"
             :key="project.path"
@@ -92,7 +92,7 @@ const { data: projects } = await useAsyncData('home-projects', () => {
             type="project"
             compact
           />
-        </div>
+        </UPageGrid>
       </div>
     </div>
   </div>
