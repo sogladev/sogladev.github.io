@@ -75,125 +75,135 @@ useHead({
 
 <template>
   <UPage v-if="project">
-    <UPageHeader
-      :title="project.title"
-      :description="project.description"
+    <UPageBody
+      prose
+      class="max-w-none"
     >
-      <template #headline>
-        <NuxtLink
-          to="/projects"
-          class="inline-flex items-center text-sm hover:text-primary"
-        >
-          <UIcon
-            name="i-heroicons-arrow-left"
-            class="mr-1"
-          />
-          Back to projects
-        </NuxtLink>
-      </template>
-
-      <template #links>
-        <!-- Stats and Action Buttons -->
-        <div class="flex flex-wrap items-center gap-3">
-          <div
-            v-if="project.stars"
-            class="flex items-center gap-1.5 text-sm text-muted"
+      <div class="max-w-[65ch] mx-auto">
+        <!-- Project Header -->
+        <div class="mb-8">
+          <NuxtLink
+            to="/projects"
+            class="inline-flex items-center text-sm hover:text-primary mb-4"
           >
             <UIcon
-              name="i-heroicons-star"
-              class="size-4"
+              name="i-heroicons-arrow-left"
+              class="mr-1"
             />
-            <span>{{ project.stars }} stars</span>
+            Back to projects
+          </NuxtLink>
+
+          <h1 class="text-3xl sm:text-4xl font-bold text-highlighted mb-4">
+            {{ project.title }}
+          </h1>
+
+          <p
+            v-if="project.description"
+            class="text-lg text-muted mb-4"
+          >
+            {{ project.description }}
+          </p>
+
+          <!-- Stats and Action Buttons -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div
+              v-if="project.stars"
+              class="flex items-center gap-1.5 text-sm text-muted"
+            >
+              <UIcon
+                name="i-heroicons-star"
+                class="size-4"
+              />
+              <span>{{ project.stars }} stars</span>
+            </div>
+
+            <UBadge
+              v-if="project.featured"
+              color="primary"
+              variant="subtle"
+              size="lg"
+              icon="i-heroicons-star"
+            >
+              Featured
+            </UBadge>
+
+            <UButton
+              v-if="project.repo"
+              :to="project.repo"
+              target="_blank"
+              external
+              icon="i-simple-icons-github"
+              color="primary"
+              size="lg"
+            >
+              View on GitHub
+            </UButton>
           </div>
 
-          <UBadge
-            v-if="project.featured"
-            color="primary"
-            variant="subtle"
-            size="lg"
-            icon="i-heroicons-star"
+          <!-- Tags -->
+          <div
+            v-if="project.tags?.length"
+            class="flex flex-wrap gap-2 pb-6 border-b border-default"
           >
-            Featured
-          </UBadge>
-
-          <UButton
-            v-if="project.repo"
-            :to="project.repo"
-            target="_blank"
-            external
-            icon="i-simple-icons-github"
-            color="primary"
-            size="lg"
-          >
-            View on GitHub
-          </UButton>
+            <UBadge
+              v-for="tag in project.tags"
+              :key="tag"
+              color="primary"
+              variant="soft"
+              :icon="getTagIcon(tag)"
+            >
+              {{ tag }}
+            </UBadge>
+          </div>
         </div>
 
-        <!-- Tags -->
+        <ContentRenderer
+          v-if="project.body"
+          :value="project"
+        />
+
+        <USeparator
+          v-if="surround?.filter(Boolean).length"
+          class="my-8"
+        />
+
+        <UContentSurround :surround="surround as any" />
+
+        <!-- Related Projects -->
         <div
-          v-if="project.tags?.length"
-          class="flex flex-wrap gap-2 w-full"
+          v-if="relatedProjects && relatedProjects.length > 0"
+          class="mt-16"
         >
-          <UBadge
-            v-for="tag in project.tags"
-            :key="tag"
-            color="primary"
-            variant="soft"
-            :icon="getTagIcon(tag)"
-          >
-            {{ tag }}
-          </UBadge>
+          <h2 class="text-2xl font-bold mb-6">
+            Related Projects
+          </h2>
+          <UPageGrid>
+            <UPageCard
+              v-for="related in relatedProjects"
+              :key="related.path"
+              :title="related.title"
+              :description="related.description"
+              :to="related.path"
+              icon="i-heroicons-cube"
+              variant="soft"
+            >
+              <template #footer>
+                <div class="flex flex-wrap gap-1">
+                  <UBadge
+                    v-for="tag in related.tags?.slice(0, 3)"
+                    :key="tag"
+                    color="primary"
+                    variant="soft"
+                    size="sm"
+                    :icon="getTagIcon(tag)"
+                  >
+                    {{ tag }}
+                  </UBadge>
+                </div>
+              </template>
+            </UPageCard>
+          </UPageGrid>
         </div>
-      </template>
-    </UPageHeader>
-
-    <UPageBody prose>
-      <ContentRenderer
-        v-if="project.body"
-        :value="project"
-      />
-
-      <USeparator
-        v-if="surround?.filter(Boolean).length"
-        class="my-8"
-      />
-
-      <UContentSurround :surround="surround as any" />
-
-      <!-- Related Projects -->
-      <div
-        v-if="relatedProjects && relatedProjects.length > 0"
-        class="mt-16"
-      >
-        <h2 class="text-2xl font-bold mb-6">
-          Related Projects
-        </h2>
-        <UPageGrid>
-          <UPageCard
-            v-for="related in relatedProjects"
-            :key="related.path"
-            :title="related.title"
-            :description="related.description"
-            :to="related.path"
-            icon="i-heroicons-cube"
-            variant="soft"
-          >
-            <template #footer>
-              <div class="flex flex-wrap gap-1">
-                <UBadge
-                  v-for="tag in related.tags?.slice(0, 3)"
-                  :key="tag"
-                  color="primary"
-                  variant="soft"
-                  size="sm"
-                  :icon="getTagIcon(tag)"
-                >
-                  {{ tag }}
-                </UBadge>
-              </div>
-            </template>
-          </UPageCard>
-        </UPageGrid>
       </div>
     </UPageBody>
 
@@ -201,7 +211,9 @@ useHead({
       v-if="project.body?.toc?.links?.length"
       #right
     >
-      <UContentToc :links="project.body.toc.links" />
+      <UPageAside>
+        <UContentToc :links="project.body.toc.links" />
+      </UPageAside>
     </template>
   </UPage>
 </template>
