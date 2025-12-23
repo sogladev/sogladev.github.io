@@ -81,102 +81,96 @@ useHead({
 
 <template>
   <UPage v-if="article">
-    <UContainer>
-      <UPageHeader
-        :title="article.title"
-        :description="article.description"
-      >
-        <template #headline>
-          <NuxtLink
-            to="/blog"
-            class="inline-flex items-center text-sm hover:text-primary"
-          >
-            <UIcon
-              name="i-heroicons-arrow-left"
-              class="mr-1"
-            />
-            Back to blog
-          </NuxtLink>
-        </template>
-
-        <template #links>
-          <!-- Meta Information -->
-          <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
-            <span v-if="article.date">
-              {{
-                new Date(article.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              }}
-            </span>
-            <span v-if="article.author"> by {{ article.author }} </span>
-          </div>
-
-          <!-- Tags -->
-          <div
-            v-if="article.tags?.length"
-            class="flex flex-wrap gap-2 w-full"
-          >
-            <UBadge
-              v-for="tag in article.tags"
-              :key="tag"
-              color="primary"
-              variant="soft"
-              :icon="getTagIcon(tag)"
-            >
-              {{ tag }}
-            </UBadge>
-          </div>
-        </template>
-      </UPageHeader>
-    </UContainer>
-
-    <UPageBody prose>
-      <UContainer>
-        <ContentRenderer
-          v-if="article.body"
-          :value="article"
-        />
-
-        <USeparator
-          v-if="surround?.filter(Boolean).length"
-          class="my-8"
-        />
-
-        <UContentSurround :surround="surround as any" />
-
-        <!-- Related Articles -->
-        <div
-          v-if="relatedArticles && relatedArticles.length > 0"
-          class="mt-16"
+    <UPageHeader
+      :title="article.title"
+      :description="article.description"
+    >
+      <template #headline>
+        <NuxtLink
+          to="/blog"
+          class="inline-flex items-center text-sm hover:text-primary"
         >
-          <h2 class="text-2xl font-bold mb-6">
-            Related Articles
-          </h2>
-          <UPageGrid>
-            <UPageCard
-              v-for="related in relatedArticles"
-              :key="related.path"
-              :title="related.title"
-              :description="related.description"
-              :to="related.path"
-              icon="i-heroicons-newspaper"
-              variant="soft"
-            />
-          </UPageGrid>
+          <UIcon
+            name="i-heroicons-arrow-left"
+            class="mr-1"
+          />
+          Back to blog
+        </NuxtLink>
+      </template>
+
+      <template #links>
+        <!-- Meta Information -->
+        <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
+          <span v-if="article.date">
+            {{
+              new Date(article.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })
+            }}
+          </span>
+          <span v-if="article.author"> by {{ article.author }} </span>
         </div>
-      </UContainer>
+
+        <!-- Tags -->
+        <div
+          v-if="article.tags?.length"
+          class="flex flex-wrap gap-2 w-full"
+        >
+          <UBadge
+            v-for="tag in article.tags"
+            :key="tag"
+            color="primary"
+            variant="soft"
+            :icon="getTagIcon(tag)"
+          >
+            {{ tag }}
+          </UBadge>
+        </div>
+      </template>
+    </UPageHeader>
+
+    <UPageBody>
+      <ContentRenderer
+        v-if="article.body"
+        :value="article"
+      />
+
+      <USeparator
+        v-if="surround?.filter(Boolean).length"
+        class="my-8"
+      />
+
+      <UContentSurround :surround="surround as any" />
+
+      <!-- Related Articles -->
+      <div
+        v-if="relatedArticles && relatedArticles.length > 0"
+        class="mt-16"
+      >
+        <h2 class="text-2xl font-bold mb-6">
+          Related Articles
+        </h2>
+        <UPageGrid>
+          <UPageCard
+            v-for="related in relatedArticles"
+            :key="related.path"
+            :title="related.title"
+            :description="related.description"
+            :to="related.path"
+            icon="i-heroicons-newspaper"
+            variant="soft"
+          />
+        </UPageGrid>
+      </div>
     </UPageBody>
 
     <template
       v-if="article.body?.toc?.links?.length"
       #right
     >
-      <UContainer>
-        <UContentToc :links="article.body.toc.links" />
-      </UContainer>
+      <UContentToc :links="article.body.toc.links" />
     </template>
   </UPage>
 </template>
