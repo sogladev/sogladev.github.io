@@ -18,7 +18,7 @@ tags:
 
 This article documents a **Linux-focused AzerothCore development setup** aimed at contributors working on **stock 3.3.5 (WotLK)** behavior.
 
-The goal is not merely to “run AzerothCore,” but to create a **development environment** that supports:
+The goal is not merely to "run AzerothCore", but to create a **development environment** that supports:
 
 - **Efficient Triage**: Quickly validate before-and-after behavior when developing, debugging, or testing pull requests
 - **Context Switching**: Easy switching between stock and custom development workflows
