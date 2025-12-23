@@ -106,17 +106,16 @@ useHead({
       </div>
 
       <!-- Articles List -->
-      <div
-        v-if="filteredArticles.length > 0"
-        class="space-y-6"
-      >
-        <ContentCard
-          v-for="article in filteredArticles"
-          :key="article.path"
-          :content="article"
-          type="article"
-          :show-secondary-action="false"
-        />
+      <div v-if="filteredArticles.length > 0">
+        <UPageGrid>
+          <ContentCard
+            v-for="article in filteredArticles.filter(a => a.title)"
+            :key="article.path"
+            :content="article"
+            type="article"
+            :show-secondary-action="false"
+          />
+        </UPageGrid>
       </div>
 
       <!-- No Results -->
