@@ -15,16 +15,19 @@ const searchQuery = ref('')
 const selectedTag = ref<string | null>(null)
 
 // Fetch items from the content collection
-const { data: items } = await useAsyncData<any[]>(`list-${props.collection}`, () => {
-  // Use a loose-typed query to avoid strict collection field typing issues
-  let q: any = queryCollection(props.collection as any)
-    .order('date', 'DESC')
+const { data: items } = await useAsyncData<any[]>(
+  `list-${props.collection}-${props.limit ?? 'all'}-${props.featuredOnly ? 'featured' : 'all'}`,
+  () => {
+    // Use a loose-typed query to avoid strict collection field typing issues
+    let q: any = queryCollection(props.collection as any)
+      .order('date', 'DESC')
 
-  if (props.featuredOnly) q = q.where('featured', '=', true)
-  if (props.limit) q = q.limit(props.limit)
+    if (props.featuredOnly) q = q.where('featured', '=', true)
+    if (props.limit) q = q.limit(props.limit)
 
-  return q.all()
-})
+    return q.all()
+  }
+)
 
 // Extract unique tags
 const allTags = computed(() => {
