@@ -44,10 +44,6 @@ const filteredArticles = computed(() => {
   return filtered
 })
 
-const clearSearch = () => {
-  searchQuery.value = ''
-}
-
 const toggleTag = (tag: string) => {
   selectedTag.value = selectedTag.value === tag ? null : tag
 }
@@ -70,28 +66,22 @@ useHead({
     <UPageHeader
       title="Blog"
       description="Technical articles, guides, and tutorials"
+      :ui="{ root: 'relative border-b border-default py-0' }"
     />
 
     <UPageBody>
-      <!-- Search and Filter -->
-      <div class="mb-8 space-y-4">
-        <!-- Search Bar -->
+      <!-- Search Bar -->
+      <div class="mt-8 mb-8 space-y-4">
         <UInput
           v-model="searchQuery"
+          type="search"
+          enter-key-hint="search"
+          leading
+          :leading-icon="'i-heroicons-magnifying-glass-20-solid'"
           size="lg"
           placeholder="Search articles..."
-        >
-          <template #trailing>
-            <UButton
-              v-if="searchQuery !== ''"
-              color="neutral"
-              variant="link"
-              icon="i-heroicons-x-mark-20-solid"
-              :padded="false"
-              @click="clearSearch"
-            />
-          </template>
-        </UInput>
+          aria-label="Search articles"
+        />
 
         <!-- Tags Filter -->
         <TagFilter
@@ -100,7 +90,6 @@ useHead({
           @toggle-tag="toggleTag"
         />
       </div>
-
       <!-- Results Count -->
       <div class="mb-6">
         <p class="text-sm text-gray-600 dark:text-gray-400">

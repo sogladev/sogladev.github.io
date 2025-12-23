@@ -47,10 +47,6 @@ const filteredProjects = computed(() => {
   return filtered
 })
 
-const clearSearch = () => {
-  searchQuery.value = ''
-}
-
 const toggleTag = (tag: string) => {
   selectedTag.value = selectedTag.value === tag ? null : tag
 }
@@ -72,6 +68,7 @@ useHead({
     <UPageHeader
       title="Projects"
       description="A collection of my open-source projects and contributions"
+      :ui="{ root: 'relative border-b border-default py-0' }"
     />
 
     <UPageBody>
@@ -80,20 +77,14 @@ useHead({
         <!-- Search Bar -->
         <UInput
           v-model="searchQuery"
+          type="search"
+          enter-key-hint="search"
+          leading
+          :leading-icon="'i-heroicons-magnifying-glass-20-solid'"
           size="lg"
           placeholder="Search projects..."
-        >
-          <template #trailing>
-            <UButton
-              v-if="searchQuery !== ''"
-              color="neutral"
-              variant="link"
-              icon="i-heroicons-x-mark-20-solid"
-              :padded="false"
-              @click="clearSearch"
-            />
-          </template>
-        </UInput>
+          aria-label="Search projects"
+        />
 
         <!-- Tags Filter -->
         <TagFilter
