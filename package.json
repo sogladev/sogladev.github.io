@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "build:github-pages": "NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/} npx nuxt build --preset github_pages",
+    "build:github-pages": "NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/} nuxt build --preset github_pages",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
