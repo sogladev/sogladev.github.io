@@ -1,0 +1,70 @@
+---
+title: 'Keira3 Contributions'
+description: 'Contributions to Keira3, the cross-platform AzerothCore database editor, including Unused-Guid-Search integration, SQL syntax highlighting, and entity cloning support.'
+tags: ['azerothcore', 'electron', 'angular', 'typescript', 'tooling']
+image: '/images/projects/keira3.png'
+repo: 'https://github.com/azerothcore/Keira3'
+featured: false
+---
+
+# Keira3 Contributions
+
+[Keira3](https://github.com/azerothcore/Keira3) is a cross-platform desktop database editor for the AzerothCore MMORPG framework. It lets server owners edit world data through a GUI while automatically generating the SQL behind the scenes.
+
+I contributed several features focused on making everyday database editing faster, safer, and more enjoyable.
+
+## Why This Project Matters
+
+Keira3 is used by many AzerothCore servers as their main content editor. Small UX improvements and better tooling can have a big impact on how quickly developers and GMs can iterate on content.
+
+My contributions focused on:
+
+- Bringing **power tools** directly into the editor (instead of relying on external utilities)
+- Improving **feedback and readability** while editing SQL
+- Unlocking long-requested **workflow improvements** like cloning existing entities
+
+## Key Contributions
+
+### 1. Integrated Unused-Guid-Search
+
+Previously, finding free GUID gaps required a separate .NET tool (Unused-Guid-Search). I:
+
+- **Integrated Unused-Guid-Search directly into Keira3** as a first-class feature
+- Provided a UI inside the database editor to **scan for unused GUIDs** so users can safely add new spawns
+- Implemented the feature with **100% test coverage** on the Angular side
+
+This deprecates the standalone Unused-Guid-Search tool and keeps the entire workflow inside Keira3.
+
+### 2. SQL Editor with Syntax Highlighting
+
+The original SQL editor was essentially a plain textarea. I:
+
+- Added **SQL syntax highlighting** using a MySQL-oriented dialect
+- Enabled **uppercase autocompletion** for SQL keywords to match common conventions
+- Matched the colors to **GitHub’s light theme** so the SQL view integrates visually with Keira3’s existing HighlightJS-based outputs
+
+This makes it much easier to skim, understand, and review generated or hand-edited SQL.
+
+### 3. "Copy from Existing" / Entity Cloning
+
+A long-standing request in the Keira3 issue tracker was the ability to clone an existing entity with all of its related data. I:
+
+- Added a **"copy from existing" (clone)** option to the Create card for multiple entity types
+- Ensured the cloned entity brings over the **related records** needed to be functional out of the box
+- Updated and extended tests for `create.component.spec.ts` to cover the new behavior
+
+This feature effectively closes the oldest open request: being able to clone an existing entity and its relationships instead of rebuilding everything from scratch.
+
+## Stack & Tools
+
+- **Electron + Angular + TypeScript** for the main app
+- **NX** workspace for structuring apps/libs and running tests
+- **Jest / Angular testing utilities** for feature coverage
+
+Even though I’m not an Angular or NX expert, these contributions pushed me to work with their patterns, write meaningful tests, and rely on tooling (including AI assistance) while still keeping the final code maintainable.
+
+## Links
+
+- Project: https://github.com/azerothcore/Keira3
+- Website: https://www.azerothcore.org/Keira3/
+- My PRs: https://github.com/azerothcore/Keira3/pulls?q=author%3Asogladev
