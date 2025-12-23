@@ -2,7 +2,7 @@
 title: 'Realmctl'
 description: 'Rust CLI tool to launch World of Warcraft clients, switch realmlist targets, and manage disk-efficient workspaces from a single config.'
 tags: ['rust', 'cli', 'wow', 'tooling']
-image: '/images/projects/rs-realmctl.png'
+image: '/images/projects/rs-realmctl.svg'
 repo: 'https://github.com/sogladev/rs-realmctl'
 featured: false
 ---

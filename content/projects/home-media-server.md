@@ -2,7 +2,7 @@
 title: 'Home Media Server Stack'
 description: 'Docker-based home media server stack with Portainer, Traefik, and automated dependency management, focused on practical DevOps and self-hosted media.'
 tags: ['devops', 'docker', 'self-hosting', 'automation', 'media-server']
-image: '/images/projects/home-media-server.png'
+image: '/images/projects/home-media-server.svg'
 repo: 'https://github.com/sogladev/home-media-server'
 featured: false
 ---
