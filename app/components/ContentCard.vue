@@ -34,6 +34,14 @@ const ossBadge = computed(() => {
   return isOSS ? { label: 'Open Source', icon: 'i-simple-icons-github' } : null
 })
 
+// Compute contributor badge (projects where we are contributors)
+const contributorBadge = computed(() => {
+  if (props.type !== 'project') return null
+  return props.content?.role === 'contributor'
+    ? { label: 'Contributor', icon: 'i-heroicons-user' }
+    : null
+})
+
 // Get tags limited by compact mode
 const displayTags = computed(() => {
   const tags = props.content.tags || []
@@ -96,6 +104,17 @@ const imageUrl = computed(() => {
               :icon="ossBadge.icon"
             >
               {{ ossBadge.label }}
+            </UBadge>
+
+            <!-- Contributor Badge -->
+            <UBadge
+              v-if="contributorBadge"
+              color="info"
+              variant="subtle"
+              size="sm"
+              :icon="contributorBadge.icon"
+            >
+              {{ contributorBadge.label }}
             </UBadge>
 
             <UBadge

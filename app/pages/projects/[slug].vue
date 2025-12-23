@@ -127,6 +127,16 @@ useHead({
               Featured
             </UBadge>
 
+            <UBadge
+              v-if="project.role === 'contributor'"
+              color="info"
+              variant="subtle"
+              size="lg"
+              icon="i-heroicons-user"
+            >
+              Contributor
+            </UBadge>
+
             <UButton
               v-if="project.repo"
               :to="project.repo"

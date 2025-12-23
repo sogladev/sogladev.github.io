@@ -26,7 +26,7 @@ const { data: items } = await useAsyncData<any[]>(
     if (props.limit) q = q.limit(props.limit)
 
     return q.all()
-  }
+  },
 )
 
 // Extract unique tags
