@@ -40,6 +40,11 @@ export default defineNuxtConfig({
     '/.well-known/**': { cache: { maxAge: 60 * 10 } },
   },
   compatibilityDate: '2024-04-03',
+  icon: {
+    provider: 'iconify',
+    // Collections are fetched from Iconify CDN at runtime (works on static hosts)
+    collections: ['lucide', 'heroicons', 'simple-icons'],
+  },
   image: {
     provider: 'github',
   },
