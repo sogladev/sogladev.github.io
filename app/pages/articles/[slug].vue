@@ -4,8 +4,8 @@ const { getTagIcon } = useTagIcons()
 
 // Fetch the article
 const { data: article } = await useAsyncData(
-  `blog-${route.params.slug}`,
-  () => queryCollection('blog').path(route.path).first(),
+  `articles-${route.params.slug}`,
+  () => queryCollection('articles').path(route.path).first(),
 )
 
 // Handle 404
@@ -23,7 +23,7 @@ const { data: relatedArticles } = await useAsyncData(
   async () => {
     if (!article.value?.tags?.length) return []
 
-    return queryCollection('blog')
+    return queryCollection('articles')
       .where('path', '<>', route.path)
       .where('tags', 'LIKE', `%${article.value.tags[0]}%`) // Simple tag matching
       .limit(3)
@@ -33,7 +33,7 @@ const { data: relatedArticles } = await useAsyncData(
 
 // Fetch surround articles for navigation
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings('blog', route.path),
+  queryCollectionItemSurroundings('articles', route.path),
 )
 
 // SEO
@@ -53,14 +53,14 @@ useHead({
         <!-- Article Header -->
         <div class="mb-8">
           <NuxtLink
-            to="/blog"
+            to="/articles"
             class="inline-flex items-center text-sm hover:text-primary mb-4"
           >
             <UIcon
               name="i-heroicons-arrow-left"
               class="mr-1"
             />
-            Back to blog
+            Back to articles
           </NuxtLink>
 
           <h1 class="text-3xl sm:text-4xl font-bold text-highlighted mb-4">

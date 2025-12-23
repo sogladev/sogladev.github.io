@@ -24,7 +24,7 @@
             Recent Articles
           </h2>
           <UButton
-            to="/blog"
+            to="/articles"
             variant="outline"
             trailing-icon="i-heroicons-arrow-right"
           >
@@ -33,7 +33,7 @@
         </div>
 
         <ListPage
-          collection="blog"
+          collection="articles"
           card-variant="compact"
           :limit="3"
           :show-controls="false"

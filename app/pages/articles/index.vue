@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Blog - Articles & Tutorials',
+  title: 'Articles - Articles & Tutorials',
   meta: [
     {
       name: 'description',
@@ -14,14 +14,14 @@ useHead({
 <template>
   <UContainer>
     <UPageHeader
-      title="Blog"
+      title="Articles"
       description="Technical articles, guides, and tutorials"
       :ui="{ root: 'relative border-b border-default py-0' }"
     />
 
     <UPageBody>
       <ListPage
-        collection="blog"
+        collection="articles"
         card-variant="compact"
       />
     </UPageBody>

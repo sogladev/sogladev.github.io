@@ -11,9 +11,9 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     active: route.path === '/',
   },
   {
-    label: 'Blog',
-    to: '/blog',
-    active: route.path.startsWith('/blog'),
+    label: 'Articles',
+    to: '/articles',
+    active: route.path.startsWith('/articles'),
   },
   {
     label: 'Projects',
@@ -35,12 +35,12 @@ const footerLinks: NavigationMenuItem[] = [
 const { data: files } = useLazyAsyncData(
   'search',
   async () => {
-    const [blog, projects, pages] = await Promise.all([
-      queryCollectionSearchSections('blog'),
+    const [articles, projects, pages] = await Promise.all([
+      queryCollectionSearchSections('articles'),
       queryCollectionSearchSections('projects'),
       queryCollectionSearchSections('pages'),
     ])
-    return [...blog, ...projects, ...pages]
+    return [...articles, ...projects, ...pages]
   },
   {
     server: false,
@@ -48,11 +48,11 @@ const { data: files } = useLazyAsyncData(
 )
 
 const { data: navigation } = await useAsyncData('navigation', async () => {
-  const [blog, projects] = await Promise.all([
-    queryCollectionNavigation('blog'),
+  const [articles, projects] = await Promise.all([
+    queryCollectionNavigation('articles'),
     queryCollectionNavigation('projects'),
   ])
-  return [...blog, ...projects]
+  return [...articles, ...projects]
 })
 
 const searchTerm = ref('')
