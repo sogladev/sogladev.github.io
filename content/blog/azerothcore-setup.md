@@ -1,6 +1,6 @@
 ---
 title: 'AzerothCore Development Setup (Linux)'
-description: 'A Linux-focused, stock AzerothCore development environment designed for effective triage and PR validation.'
+description: 'A Linux-focused, stock AzerothCore development environment.
 tags:
   [
     'cpp',
@@ -12,7 +12,6 @@ tags:
     'mysql',
     'docker'
   ]
-date: 2025-01-01
 ---
 
 # AzerothCore Development Setup
@@ -21,21 +20,14 @@ This article documents a **Linux-focused AzerothCore development setup** aimed a
 
 The goal is not merely to “run AzerothCore,” but to create a **development environment** that supports:
 
-- Clean before/after validation when working on bugs or pull requests
-- Easy context switching between stock and custom development
+- **Efficient Triage**: Quickly validate before-and-after behavior when developing, debugging, or testing pull requests
+- **Context Switching**: Easy switching between stock and custom development workflows
+- **Rapid Environment Setup**: Spin up new environments for testing modules or specific features without disrupting the primary setup
+- **Cross-Reference Development**: Identify and leverage already-solved systems from other cores, reducing redundant work
 
 I focus on high-level concepts and workflows rather than exhaustive
 step-by-step instructions; some commands or details may be incorrect, missing,
 or out of date.
-
-
-## Why This Setup Exists
-
-Running multiple 3.3.5 cores side-by-side offers several advantages over a stock installation:
-
-- Avoid Redundant Work: Identify and leverage already-solved systems from other cores, reducing the need to re-implement functionality.
-- Efficient Triage: Quickly validate before-and-after behavior when developing, debugging, or testing pull requests.
-- Rapid Environment Setup: Spin up new environments for testing module setups or specific features without disrupting the primary setup.
 
 ## Scope and Assumptions
 
@@ -71,37 +63,36 @@ Examples that **do not alter stock gameplay**:
 - Skipping DK starting zone to test spell interactions
 - Test-only vendors or teleporters
 
-These exist solely to accelerate validation.
-
 It's best to avoid usage of:
-- Client modifications, like patches (`.MPQ`) and addons
+- Client modifications, like patches (`.MPQ`) and most addons
 - Modules that alter behavior, like progression modules
 
 ## Dual Database Setup
 
-Separating databases has proven extremely valuable during development.
+Separating databases has proven valuable during development.
 
 ### Why Two Databases?
-
-- **Source DB**
-  - Treated as read-only
-  - Represents a known-good reference state
 
 - **Dev DB**
   - Frequent changes
   - SmartAI edits
   - Safe to break
 
+- **Source DB**
+  - Treated as read-only
+  - Represents a known-good reference state
+
 This approach avoids repeated `DROP DATABASE + import` cycles and works particularly well with [**Keira3**](https://github.com/azerothcore/Keira3), where you can diff and selectively restore entries.
 
 ### MySQL Initialization
 
-https://www.azerothcore.org/wiki/database-installation
+[Database Installation](https://www.azerothcore.org/wiki/database-installation)
 
-Modified `create_mysql.sql` file for use in our docker environment.
+### MySQL Initialization Script
 
-This also sets up additional databases for tooling. Namely, `acore_spells` for use by [WoW-Spell-Editor](https://github.com/stoneharry/WoW-Spell-Editor)
-and `acore_dbc` by [WDBXEditor](https://github.com/freadblangks/WDBXEditor)
+Below is a modified `create_mysql.sql` file tailored for use in our Docker environment. This script also sets up additional databases for tooling, such as `acore_spells` (used by [WoW-Spell-Editor](https://github.com/stoneharry/WoW-Spell-Editor)) and `acore_dbc` (used by [WDBXEditor](https://github.com/freadblangks/WDBXEditor)).
+
+This script ensures a clean and consistent setup for both core development and tooling needs.
 
 ```sql
 -- MySQL 8.0.x
@@ -164,20 +155,25 @@ volumes:
 
 This DB setup allows us to run Keira3 on separate ports 3311 and 3312. It's easy to add more containers if you need to work on modules, playerbots, etc.
 
-## Core setup
+## Core Setup
 
-We don't need any extra dependencies that are listed in official wiki install.
+We don't need additional dependencies beyond those listed in the [official wiki](https://www.azerothcore.org/wiki/linux-requirements).
 
-Altough unofficialy unsupported, this should be OK for AC. When in doubt, use official instructions for Ubuntu LTS either in a distrobox or VM (see below). Local setup is what I prefer due to ease of debugging.
 
-This should work on Fedora 43 (untested):
+
+While this approach is unofficially unsupported, it should work fine for AzerothCore. When in doubt, refer to the official instructions for Ubuntu LTS, either in a Distrobox or VM.
+
+Fedora 43 Setup (Untested):
+
 ```zsh
 dnf group install c-development
-# extra (some are already covered by the group)
+# Additional packages (some may already be included in the group)
 dnf install boost cmake openssl-devel readline-devel bzip2 clang lldb lld clang-format clang-tidy boost-devel
 ```
 
-### Compile
+### Compilation
+
+Follow the standard compilation steps as outlined in the official documentation.
 
 For convenience, we can make use of the `acore.sh` utility and setup a config with file `/conf/config.sh`
 
