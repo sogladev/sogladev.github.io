@@ -69,17 +69,12 @@ useHead({
 
 <template>
   <UContainer>
-    <div class="py-12">
-      <!-- Header -->
-      <div class="mb-6">
-        <h1 class="text-4xl font-bold mb-4">
-          Projects
-        </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">
-          A collection of my open-source projects and contributions
-        </p>
-      </div>
+    <UPageHeader
+      title="Projects"
+      description="A collection of my open-source projects and contributions"
+    />
 
+    <UPageBody>
       <!-- Search and Filter -->
       <div class="mb-8 space-y-4">
         <!-- Search Bar -->
@@ -125,14 +120,14 @@ useHead({
 
       <!-- Projects Grid -->
       <div v-if="filteredProjects.length > 0">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <UPageGrid>
           <ContentCard
             v-for="project in filteredProjects.filter(p => p.title)"
             :key="project.path"
             :content="project"
             type="project"
           />
-        </div>
+        </UPageGrid>
       </div>
 
       <!-- No Results -->
@@ -160,6 +155,6 @@ useHead({
           Clear filters
         </UButton>
       </div>
-    </div>
+    </UPageBody>
   </UContainer>
 </template>

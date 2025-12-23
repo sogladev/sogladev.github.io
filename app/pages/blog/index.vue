@@ -67,17 +67,12 @@ useHead({
 
 <template>
   <UContainer>
-    <div class="py-12">
-      <!-- Header -->
-      <div class="mb-6">
-        <h1 class="text-4xl font-bold mb-4">
-          Blog
-        </h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">
-          Technical articles, guides, and tutorials
-        </p>
-      </div>
+    <UPageHeader
+      title="Blog"
+      description="Technical articles, guides, and tutorials"
+    />
 
+    <UPageBody>
       <!-- Search and Filter -->
       <div class="mb-8 space-y-4">
         <!-- Search Bar -->
@@ -160,6 +155,6 @@ useHead({
           Clear filters
         </UButton>
       </div>
-    </div>
+    </UPageBody>
   </UContainer>
 </template>
