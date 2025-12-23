@@ -55,8 +55,6 @@ This article **links**, rather than repeats, foundational steps.
 
 This is important distinction to make. In AC we focus on 335 blizzlike, anything that drifts makes it harder to reason about stock correctness
 
-### Acceptable for Stock Development
-
 Examples that **do not alter stock gameplay**:
 
 - NPCs that instantly gear characters for testing
@@ -86,8 +84,6 @@ This approach avoids repeated `DROP DATABASE + import` cycles and works particul
 ### MySQL Initialization
 
 [Wiki Database Installation](https://www.azerothcore.org/wiki/database-installation)
-
-### MySQL Initialization Script
 
 Below is a modified `create_mysql.sql` file tailored for use in our Docker environment. This script also sets up additional databases for tooling, such as `acore_spells` (used by [WoW-Spell-Editor](https://github.com/stoneharry/WoW-Spell-Editor)) and `acore_dbc` (used by [WDBXEditor](https://github.com/freadblangks/WDBXEditor)).
 
