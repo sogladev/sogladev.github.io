@@ -11,8 +11,7 @@
           Welcome to My Dev Portfolio
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-400">
-          Exploring software development, system architecture, and open-source
-          projects
+          Building open-source tools, systems, and long-running projects, from low-level C++ cores to modern cross-platform applications.
         </p>
       </div>
     </div>
