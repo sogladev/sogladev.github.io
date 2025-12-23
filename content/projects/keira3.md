@@ -5,6 +5,7 @@ tags: ['azerothcore', 'electron', 'angular', 'typescript', 'tooling']
 image: '/images/projects/keira3.png'
 repo: 'https://github.com/azerothcore/Keira3'
 featured: false
+openSource: true
 ---
 
 # Keira3 Contributions

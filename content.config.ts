@@ -13,6 +13,7 @@ export default defineContentConfig({
         tags: z.array(z.string()).default([]),
         image: z.string().optional(),
         featured: z.boolean().default(false),
+        openSource: z.boolean().default(false),
       }),
     }),
     projects: defineCollection({
@@ -27,6 +28,7 @@ export default defineContentConfig({
         repo: z.string().optional(),
         featured: z.boolean().default(false),
         stars: z.number().default(0),
+        openSource: z.boolean().default(false),
       }),
     }),
     pages: defineCollection({

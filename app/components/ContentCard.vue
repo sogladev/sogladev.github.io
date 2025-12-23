@@ -28,6 +28,12 @@ const visibilityBadge = computed(() => {
   return null
 })
 
+// Compute open-source badge (articles and projects can both be OSS)
+const ossBadge = computed(() => {
+  const isOSS = props.content.openSource === true || !!props.content.repo
+  return isOSS ? { label: 'Open Source', icon: 'i-simple-icons-github' } : null
+})
+
 // Get tags limited by compact mode
 const displayTags = computed(() => {
   const tags = props.content.tags || []
@@ -80,6 +86,18 @@ const imageUrl = computed(() => {
             >
               {{ type === 'article' ? 'Article' : 'Project' }}
             </UBadge>
+
+            <!-- Open Source Badge -->
+            <UBadge
+              v-if="ossBadge"
+              color="success"
+              variant="subtle"
+              size="sm"
+              :icon="ossBadge.icon"
+            >
+              {{ ossBadge.label }}
+            </UBadge>
+
             <UBadge
               v-if="visibilityBadge"
               color="neutral"
