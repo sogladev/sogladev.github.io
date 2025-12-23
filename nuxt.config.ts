@@ -12,6 +12,10 @@ export default defineNuxtConfig({
     '@nuxt/icon',
   ],
   devtools: { enabled: true, viteDevTools: true },
+  app: {
+    // Use NUXT_APP_BASE_URL (set to '/repo-name/') when deploying under a subpath (GitHub project pages).
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
+  },
   css: ['~/assets/css/main.css'],
   content: {
     build: {
@@ -24,6 +28,12 @@ export default defineNuxtConfig({
           langs: ['sql', 'cpp', 'yaml', 'bash', 'shell', 'zsh', 'typescript', 'javascript', 'markdown'],
         },
       },
+    },
+  },
+  runtimeConfig: {
+    public: {
+      // Expose base URL to the client if components need it
+      baseURL: process.env.NUXT_APP_BASE_URL || '/',
     },
   },
   routeRules: {

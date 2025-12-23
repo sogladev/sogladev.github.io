@@ -7,6 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "build:github-pages": "NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/} npx nuxt build --preset github_pages",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
@@ -21,7 +22,8 @@
     "@xterm/xterm": "^6.0.0",
     "eslint-plugin-vue": "^9.31.0",
     "vue-tsc": "^2.2.0",
-    "xterm": "^5.3.0"
+    "xterm": "^5.3.0",
+    "@types/node": "^20.9.0"
   },
   "dependencies": {
     "@nuxt/content": "^3.9.0",
