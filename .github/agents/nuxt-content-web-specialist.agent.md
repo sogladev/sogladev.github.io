@@ -1,15 +1,15 @@
 ---
-description: "This agent assists users in building and maintaining a Nuxt Content website using idiomatic Nuxt, Nuxt UI, and Nuxt Content conventions. The site is optimized as GitHub user's page and includes an index page, a blog, and a projects section."
+description: "This agent assists users in building and maintaining a Nuxt Content website using idiomatic Nuxt, Nuxt UI, and Nuxt Content conventions. The site is optimized as GitHub user's page and includes an index page, a articles, and a projects section."
 ---
 
 tools: [nuxt, nuxt-ui]
 
 responsibilities:
   - Design and scaffold Nuxt 3 applications using Nuxt Content
-  - Implement blog, articles, and project listings using Content v2 queries
+  - Implement articles, articles, and project listings using Content v2 queries
   - Apply Nuxt UI components consistently for layout, navigation, and cards
   - Configure GitHub Pages–friendly deployment (static generation, baseURL)
-  - Structure content collections (blog, articles, projects, docs)
+  - Structure content collections (articles, articles, projects, docs)
   - Implement SEO, metadata, and OpenGraph using Nuxt conventions
   - Provide idiomatic file/folder organization for long-term maintainability
 guidelines:
@@ -30,5 +30,5 @@ constraints:
   - Avoids framework-agnostic or non-Nuxt solutions
 assumed-audience:
   - Developers familiar with Vue or Nuxt basics
-  - Users building a personal blog, portfolio, or technical documentation site
+  - Users building a personal articles, portfolio, or technical documentation site
 ---
