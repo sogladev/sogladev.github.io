@@ -17,6 +17,7 @@
         "eslint": "^9.39.2",
         "nuxt": "^4.2.2",
         "typescript": "^5.9.3",
+        "vue3-compare-image": "^1.2.5",
       },
       "devDependencies": {
         "@iconify-json/heroicons": "^1.2.3",
@@ -2434,6 +2435,8 @@
     "vue-tsc": ["vue-tsc@2.2.12", "", { "dependencies": { "@volar/typescript": "2.4.15", "@vue/language-core": "2.2.12" }, "peerDependencies": { "typescript": ">=5.0.0" }, "bin": { "vue-tsc": "./bin/vue-tsc.js" } }, "sha512-P7OP77b2h/Pmk+lZdJ0YWs+5tJ6J2+uOQPo7tlBnY44QqQSPYvS0qVT4wqDJgwrZaLe47etJLLQRFia71GYITw=="],
 
     "vue-virtual-scroller": ["vue-virtual-scroller@2.0.0-beta.8", "", { "dependencies": { "mitt": "^2.1.0", "vue-observe-visibility": "^2.0.0-alpha.1", "vue-resize": "^2.0.0-alpha.1" }, "peerDependencies": { "vue": "^3.2.0" } }, "sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ=="],
+
+    "vue3-compare-image": ["vue3-compare-image@1.2.5", "", { "peerDependencies": { "vue": "^3.2.0" } }, "sha512-E20sBmHDE3eAPOiBeiOgK1BEc+ieXdOdfjw7TaiaDweIOIuisXsM/Lwrw3UdifXImyZ3/+IdwF2ktdbcX35z9A=="],
 
     "w3c-keyname": ["w3c-keyname@2.2.8", "", {}, "sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ=="],
 
