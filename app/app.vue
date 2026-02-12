@@ -77,13 +77,14 @@ const searchTerm = ref('')
     <UHeader title="Sogladev">
       <template #title>
         <div class="flex items-center gap-3">
-          <NuxtImg
+          <!-- <NuxtImg
             provider="github"
             src="sogladev"
             height="20"
             width="20"
             class="rounded-full"
-          />
+          /> -->
+          <img src="https://github.com/sogladev.png" alt="Sogladev" width="20" height="20" class="rounded-full" />
           <span class="font-bold text-xl hover:text-primary transition-colors">
             Sogladev
           </span>

@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@nuxt/eslint',
-    '@nuxt/image',
     '@nuxt/scripts',
     '@nuxt/test-utils',
     '@nuxt/ui',
@@ -44,8 +43,5 @@ export default defineNuxtConfig({
     provider: 'iconify',
     // Collections are fetched from Iconify CDN at runtime (works on static hosts)
     collections: ['lucide', 'heroicons', 'simple-icons'],
-  },
-  image: {
-    provider: 'github',
   },
 })
